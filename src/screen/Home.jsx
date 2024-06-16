@@ -5,11 +5,14 @@ import {
   Image,
   StatusBar,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import React from "react";
 import { colors } from "../utils/colors";
 import { fonts } from "../utils/font";
 import { useNavigation } from "@react-navigation/native";
+
+const { width, height } = Dimensions.get("window");
 
 const Home = () => {
   const navigation = useNavigation();
@@ -61,37 +64,34 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logoName: {
-    height: 120,
-    width: 250,
-    marginVertical: 30,
+    height: height * 0.1,
+    width: width * 0.5,
+    marginVertical: height * 0.03,
   },
   logoBlack: {
-    height: 330,
-    width: 400,
+    height: height * 0.4,
+    width: width * 0.6,
   },
   title: {
-    fontSize: 40,
+    fontSize: width * 0.07,
     color: colors.white,
     fontFamily: fonts.SemiBold,
-    paddingHorizontal: 20,
     textAlign: "center",
-    marginVertical: 20,
-    marginTop: 40,
+    marginVertical: height * 0.03,
   },
   subTitle: {
-    fontSize: 18,
-    paddingHorizontal: 20,
+    fontSize: width * 0.035,
     textAlign: "center",
     color: colors.gray,
     fontFamily: fonts.Medium,
   },
   buttonContainer: {
-    marginTop: "40%",
+    marginTop: height * 0.1,
     flexDirection: "row",
     borderWidth: 2,
     borderColor: colors.white,
     width: "80%",
-    height: 65,
+    height: height * 0.07,
     borderRadius: 100,
   },
   loginButtonWrapper: {
@@ -103,11 +103,11 @@ const styles = StyleSheet.create({
   },
   loginButtonText: {
     color: colors.primary,
-    fontSize: 20,
+    fontSize: width * 0.04,
     fontfamily: fonts.SemiBold,
   },
   signupButtonText: {
-    fontSize: 20,
+    fontSize: width * 0.04,
     fontfamily: fonts.SemiBold,
     color: colors.white,
   },
