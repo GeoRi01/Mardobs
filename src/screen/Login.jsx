@@ -4,6 +4,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Dimensions,
 } from "react-native";
 import React, { useState } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -11,6 +12,8 @@ import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import { colors } from "../utils/colors";
 import { fonts } from "../utils/font";
 import { useNavigation } from "@react-navigation/native";
+
+const { width, height } = Dimensions.get("window");
 
 const Login = () => {
   const navigation = useNavigation();
@@ -27,7 +30,7 @@ const Login = () => {
         <Ionicons
           name={"arrow-back-outline"}
           color={colors.primary}
-          size={25}
+          size={width * 0.05}
         />
       </TouchableOpacity>
       <View style={styles.textContainer}>
@@ -37,7 +40,11 @@ const Login = () => {
       </View>
       <View style={styles.formContainer}>
         <View style={styles.inputContainer}>
-          <Ionicons name={"mail-outline"} color={colors.gray} size={30} />
+          <Ionicons
+            name={"mail-outline"}
+            color={colors.gray}
+            size={width * 0.05}
+          />
           <TextInput
             style={styles.textInput}
             placeholder="Enter your email"
@@ -46,7 +53,11 @@ const Login = () => {
           />
         </View>
         <View style={styles.inputContainer}>
-          <SimpleLineIcons name={"lock"} color={colors.gray} size={30} />
+          <SimpleLineIcons
+            name={"lock"}
+            color={colors.gray}
+            size={width * 0.05}
+          />
           <TextInput
             style={styles.textInput}
             placeholder="Enter your password"
@@ -58,7 +69,11 @@ const Login = () => {
               setSecureEntry((prev) => !prev);
             }}
           >
-            <SimpleLineIcons name={"eye"} color={colors.gray} size={20} />
+            <SimpleLineIcons
+              name={"eye"}
+              color={colors.gray}
+              size={width * 0.04}
+            />
           </TouchableOpacity>
         </View>
         <TouchableOpacity>
@@ -84,76 +99,77 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.primary,
-    padding: 20,
+    padding: width * 0.05,
   },
   backButtonWrapper: {
-    height: 40,
-    width: 40,
+    height: height * 0.04,
+    width: width * 0.07,
     backgroundColor: colors.gray,
-    borderRadius: 20,
+    borderRadius: 100,
     justifyContent: "center",
     alignItems: "center",
   },
   textContainer: {
-    marginVertical: 20,
+    marginVertical: height * 0.02,
   },
   headingText: {
-    fontSize: 50,
+    fontSize: width * 0.08,
     color: colors.white,
     fontFamily: fonts.SemiBold,
   },
-  formContainer: {
-    marginTop: 20,
-  },
+  formContainer: {},
   inputContainer: {
     borderWidth: 1,
     borderColor: colors.gray,
     borderRadius: 100,
-    paddingHorizontal: 20,
+    paddingHorizontal: width * 0.05,
     flexDirection: "row",
     alignItems: "center",
-    padding: 2,
-    marginVertical: 20,
-    height: 65,
+    marginVertical: height * 0.02,
+    height: height * 0.07,
   },
   textInput: {
     flex: 1,
-    paddingHorizontal: 10,
+    paddingHorizontal: width * 0.015,
     fontFamily: fonts.Light,
+    fontSize: width * 0.025,
     color: colors.gray,
   },
   forgotPasswordText: {
     textAlign: "right",
     color: colors.gray,
+    fontSize: width * 0.025,
     fontFamily: fonts.SemiBold,
   },
   loginButtonWrapper: {
     backgroundColor: colors.white,
     borderRadius: 100,
-    marginTop: "55%",
-    height: 60,
+    marginTop: height * 0.25,
+    justifyContent: "center",
+    alignItems: "center",
+    height: height * 0.07,
   },
   loginText: {
     color: colors.primary,
-    fontSize: 20,
+    fontSize: width * 0.04,
     fontFamily: fonts.SemiBold,
-    textAlign: "center",
-    padding: 10,
   },
   footerContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginVertical: "20",
-    gap: 8,
-    marginTop: 20,
+    marginVertical: height * 0.02,
+    gap: width * 0.01,
+    marginTop: height * 0.02,
   },
   accountText: {
     color: colors.white,
+    fontSize: width * 0.025,
     fontFamily: fonts.Regular,
   },
   signupText: {
     color: colors.white,
+    fontSize: width * 0.025,
     fontFamily: fonts.Bold,
   },
 });
