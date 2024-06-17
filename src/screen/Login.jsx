@@ -24,6 +24,9 @@ const Login = () => {
   const handleSignup = () => {
     navigation.navigate("Signup");
   };
+  const handleTable = () => {
+    navigation.navigate("Table");
+  };
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.backButtonWrapper} onPress={handleGoBack}>
@@ -79,7 +82,10 @@ const Login = () => {
         <TouchableOpacity>
           <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.loginButtonWrapper}>
+        <TouchableOpacity
+          style={styles.loginButtonWrapper}
+          onPress={handleTable}
+        >
           <Text style={styles.loginText}>Login</Text>
         </TouchableOpacity>
         <View style={styles.footerContainer}>
