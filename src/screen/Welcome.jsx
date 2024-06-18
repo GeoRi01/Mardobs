@@ -22,6 +22,7 @@ const Welcome = () => {
   const handleSignup = () => {
     navigation.navigate("Signup");
   };
+
   return (
     <View style={styles.container}>
       <StatusBar hidden={true} />

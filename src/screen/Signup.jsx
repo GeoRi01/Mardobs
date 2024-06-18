@@ -25,6 +25,7 @@ const Signup = () => {
   const handleLogin = () => {
     navigation.navigate("Login");
   };
+
   return (
     <View style={styles.container}>
       {/* Header */}

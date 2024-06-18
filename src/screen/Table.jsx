@@ -41,7 +41,7 @@ const Table = () => {
             <Pressable
               style={styles.tableCard}
               /* Value Passing */
-              onPress={() => navigation.navigate("Home", { item: item })}
+              onPress={() => navigation.navigate("Home", { table: item })}
             >
               <Image source={item.image} style={styles.tableImage} />
               <Text style={styles.tableText}>{item.name}</Text>
