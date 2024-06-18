@@ -23,7 +23,7 @@ const Table = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Hi, User</Text>
+        <Text style={styles.headerText}>Hi, User#5473</Text>
         <TouchableOpacity>
           <Octicons name={"person"} size={width * 0.07} color={colors.orange} />
         </TouchableOpacity>
@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.primary,
-    paddingBottom: height * 0.02,
   },
   header: {
     flexDirection: "row",

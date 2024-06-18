@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Medium,
   },
   buttonContainer: {
-    marginTop: height * 0.1,
+    marginTop: height * 0.11,
     flexDirection: "row",
     borderWidth: 2,
     borderColor: colors.white,
