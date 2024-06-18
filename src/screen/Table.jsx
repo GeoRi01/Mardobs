@@ -16,27 +16,31 @@ import { tableList } from "../utils/tablesList";
 import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
-
+/* Navigation */
 const Table = () => {
   const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
+      {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerText}>Hi, User#5473</Text>
         <TouchableOpacity>
           <Octicons name={"person"} size={width * 0.07} color={colors.orange} />
         </TouchableOpacity>
       </View>
+      {/* Sub Header */}
       <View style={styles.subContainer}>
         <Text style={styles.subText}>Tables:</Text>
       </View>
+      {/* List */}
       <View style={styles.tableContainer}>
         <FlatList
           data={tableList}
           renderItem={({ item }) => (
             <Pressable
               style={styles.tableCard}
+              /* Value Passing */
               onPress={() => navigation.navigate("Home", { item: item })}
             >
               <Image source={item.image} style={styles.tableImage} />

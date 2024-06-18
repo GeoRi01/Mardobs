@@ -15,6 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
 
+/* Navigation */
 const Signup = () => {
   const navigation = useNavigation();
   const [secureEntry, setSecureEntry] = useState(true);
@@ -26,6 +27,7 @@ const Signup = () => {
   };
   return (
     <View style={styles.container}>
+      {/* Header */}
       <TouchableOpacity style={styles.backButtonWrapper} onPress={handleGoBack}>
         <Ionicons
           name={"arrow-back-outline"}
@@ -33,10 +35,12 @@ const Signup = () => {
           size={width * 0.05}
         />
       </TouchableOpacity>
+      {/* Text */}
       <View style={styles.textContainer}>
         <Text style={styles.headingText}>Let's get</Text>
         <Text style={styles.headingText}>Started</Text>
       </View>
+      {/* Input Box */}
       <View style={styles.formContainer}>
         <View style={styles.inputContainer}>
           <Ionicons
@@ -88,10 +92,11 @@ const Signup = () => {
             keyboardType="phone-pad"
           />
         </View>
-
+        {/* Button */}
         <TouchableOpacity style={styles.signupButtonWrapper}>
           <Text style={styles.signupText}>Sign Up</Text>
         </TouchableOpacity>
+        {/* Footer */}
         <View style={styles.footerContainer}>
           <Text style={styles.accountText}>Already have an account?</Text>
           <TouchableOpacity onPress={handleLogin}>

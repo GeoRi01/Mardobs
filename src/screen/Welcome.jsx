@@ -13,7 +13,7 @@ import { fonts } from "../utils/font";
 import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
-
+/* Navigation */
 const Welcome = () => {
   const navigation = useNavigation();
   const handleLogin = () => {
@@ -25,6 +25,7 @@ const Welcome = () => {
   return (
     <View style={styles.container}>
       <StatusBar hidden={true} />
+      {/* Image */}
       <Image
         source={require("../assets/logoName.png")}
         style={styles.logoName}
@@ -33,10 +34,12 @@ const Welcome = () => {
         source={require("../assets/logoBlack.png")}
         style={styles.logoBlack}
       />
+      {/* Text */}
       <Text style={styles.title}>Welcome to MARDOBS</Text>
       <Text style={styles.subTitle}>
         Ready to serve the best menu everyday.
       </Text>
+      {/* Button */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={[styles.loginButtonWrapper, { backgroundColor: colors.white }]}

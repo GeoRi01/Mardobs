@@ -15,6 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
 
+/* Navigation */
 const Login = () => {
   const navigation = useNavigation();
   const [secureEntry, setSecureEntry] = useState(true);
@@ -29,6 +30,7 @@ const Login = () => {
   };
   return (
     <View style={styles.container}>
+      {/* Header */}
       <TouchableOpacity style={styles.backButtonWrapper} onPress={handleGoBack}>
         <Ionicons
           name={"arrow-back-outline"}
@@ -36,11 +38,13 @@ const Login = () => {
           size={width * 0.05}
         />
       </TouchableOpacity>
+      {/* Text */}
       <View style={styles.textContainer}>
         <Text style={styles.headingText}>Hello,</Text>
         <Text style={styles.headingText}>Welcome</Text>
         <Text style={styles.headingText}>Back</Text>
       </View>
+      {/* Input Box */}
       <View style={styles.formContainer}>
         <View style={styles.inputContainer}>
           <Ionicons
@@ -78,16 +82,19 @@ const Login = () => {
               size={width * 0.04}
             />
           </TouchableOpacity>
+          {/* Forgot Page */}
         </View>
         <TouchableOpacity>
           <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
         </TouchableOpacity>
+        {/* Button */}
         <TouchableOpacity
           style={styles.loginButtonWrapper}
           onPress={handleTable}
         >
           <Text style={styles.loginText}>Login</Text>
         </TouchableOpacity>
+        {/* Footer */}
         <View style={styles.footerContainer}>
           <Text style={styles.accountText}>Don't have an account?</Text>
           <TouchableOpacity onPress={handleSignup}>

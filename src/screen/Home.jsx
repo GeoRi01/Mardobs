@@ -14,15 +14,18 @@ import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
 
+/* Navigation */
 const Home = ({ route }) => {
   const navigation = useNavigation();
   const handleGoBack = () => {
     navigation.goBack();
   };
+  /* Value Receiver */
   const { item } = route.params;
   console.log(item);
   return (
     <View style={styles.container}>
+      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.headerText} onPress={handleGoBack}>
           <Ionicons
