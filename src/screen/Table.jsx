@@ -31,7 +31,7 @@ const Table = () => {
       <View style={styles.subContainer}>
         <Text style={styles.subText}>Tables:</Text>
       </View>
-      <View>
+      <View style={styles.tableContainer}>
         <FlatList
           data={tableList}
           renderItem={({ item }) => (
@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.primary,
+    paddingBottom: height * 0.02,
   },
   header: {
     flexDirection: "row",
@@ -71,13 +72,16 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   subContainer: {
-    marginTop: height * 0.07,
+    marginTop: height * 0.02,
   },
   subText: {
     fontSize: width * 0.04,
     fontFamily: fonts.SemiBold,
     color: colors.gray,
     marginHorizontal: width * 0.03,
+  },
+  tableContainer: {
+    flex: 1,
   },
   tableCard: {
     backgroundColor: colors.white,
