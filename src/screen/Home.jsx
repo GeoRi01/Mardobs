@@ -10,7 +10,7 @@ import {
   Pressable,
   Image,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Octicons from "react-native-vector-icons/Octicons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { colors } from "../utils/colors";
@@ -30,6 +30,18 @@ const Home = ({ route }) => {
   /* Value Receiver */
   const { table } = route.params;
   console.log(table);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredFoodList, setFilteredFoodList] = useState(foodList);
+  useEffect(() => {
+    if (searchQuery === "") {
+      setFilteredFoodList(foodList);
+    } else {
+      const filteredList = foodList.filter((food) =>
+        food.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredFoodList(filteredList);
+    }
+  }, [searchQuery]);
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -52,6 +64,7 @@ const Home = ({ route }) => {
           placeholder="Search..."
           placeholderTextColor={colors.primary}
           style={styles.searchText}
+          onChangeText={(text) => setSearchQuery(text)}
         />
       </View>
       {/* Categories */}
@@ -89,7 +102,7 @@ const Home = ({ route }) => {
       <View style={styles.foodContainer}>
         <Text style={styles.categoryText}>Food's</Text>
         <FlatList
-          data={foodList}
+          data={filteredFoodList}
           renderItem={({ item }) => (
             <Pressable
               style={styles.foodCard}
@@ -100,7 +113,7 @@ const Home = ({ route }) => {
             </Pressable>
           )}
           numColumns={2}
-          columnWrapperStyle={{ justifyContent: "space-evenly" }}
+          columnWrapperStyle={{ justifyContent: "space-between" }}
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.flatListContent}
@@ -182,6 +195,7 @@ const styles = StyleSheet.create({
   },
   flatListContent: {
     paddingBottom: height * 0.02,
+    paddingHorizontal: width * 0.03,
   },
   foodCard: {
     backgroundColor: colors.white,
@@ -194,6 +208,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: width * 0.008,
     paddingVertical: height * 0.02,
+    width: width * 0.45,
   },
   foodImage: {
     width: width * 0.4,
