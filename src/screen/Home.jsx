@@ -91,7 +91,10 @@ const Home = ({ route }) => {
         <FlatList
           data={foodList}
           renderItem={({ item }) => (
-            <Pressable style={styles.foodCard}>
+            <Pressable
+              style={styles.foodCard}
+              onPress={() => navigation.navigate("Details", { item: item })}
+            >
               <Image source={item.image} style={styles.foodImage} />
               <Text style={styles.foodText}>{item.name}</Text>
             </Pressable>
