@@ -16,32 +16,53 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { colors } from "../utils/colors";
 import { fonts } from "../utils/font";
 import { useNavigation } from "@react-navigation/native";
-import { categoryList } from "../utils/categoryList";
+import { categoryList as originalCategoryList } from "../utils/categoryList"; // assuming this is your original categoryList
 import { foodList } from "../utils/foodList";
 
 const { width, height } = Dimensions.get("window");
 
-/* Navigation */
+// Add "All" category to the beginning of the categoryList
+const categoryList = [{ category: "All" }, ...originalCategoryList];
+
 const Home = ({ route }) => {
   const navigation = useNavigation();
   const handleGoBack = () => {
     navigation.goBack();
   };
-  /* Value Receiver */
+
   const { table } = route.params;
   console.log(table);
+
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const [filteredFoodList, setFilteredFoodList] = useState(foodList);
+
   useEffect(() => {
-    if (searchQuery === "") {
-      setFilteredFoodList(foodList);
-    } else {
-      const filteredList = foodList.filter((food) =>
+    filterFoodList();
+  }, [searchQuery, selectedCategory]);
+
+  const filterFoodList = () => {
+    let filteredList = foodList;
+
+    if (searchQuery !== "") {
+      filteredList = filteredList.filter((food) =>
         food.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
-      setFilteredFoodList(filteredList);
     }
-  }, [searchQuery]);
+
+    if (selectedCategory !== "All") {
+      filteredList = filteredList.filter(
+        (food) => food.category === selectedCategory
+      );
+    }
+
+    setFilteredFoodList(filteredList);
+  };
+
+  const handleCategoryPress = (category) => {
+    setSelectedCategory(category === selectedCategory ? "All" : category);
+  };
+
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -73,26 +94,29 @@ const Home = ({ route }) => {
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <View style={styles.categoryRow}>
             {categoryList.map((category, index) => {
+              const isSelected = selectedCategory === category.category;
               return (
-                <View
+                <TouchableOpacity
                   key={index}
                   style={[
                     styles.categoryCard,
                     {
-                      backgroundColor:
-                        index === 0 ? colors.orange : colors.white,
+                      backgroundColor: isSelected
+                        ? colors.orange
+                        : colors.white,
                     },
                   ]}
+                  onPress={() => handleCategoryPress(category.category)}
                 >
                   <Text
                     style={[
                       styles.categoryCardText,
-                      { color: index === 0 ? colors.white : colors.black },
+                      { color: isSelected ? colors.white : colors.black },
                     ]}
                   >
                     {category.category}
                   </Text>
-                </View>
+                </TouchableOpacity>
               );
             })}
           </View>
