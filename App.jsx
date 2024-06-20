@@ -9,6 +9,8 @@ import Welcome from "./src/screen/Welcome";
 import Table from "./src/screen/Table";
 import Home from "./src/screen/Home";
 import Details from "./src/screen/Details";
+import TabBar from "./src/screen/TabBar";
+import Payment from "./src/screen/Payment";
 
 const Stack = createNativeStackNavigator();
 const App = () => {
@@ -21,6 +23,8 @@ const App = () => {
         <Stack.Screen name={"Table"} component={Table} />
         <Stack.Screen name={"Home"} component={Home} />
         <Stack.Screen name={"Details"} component={Details} />
+        <Stack.Screen name={"TabBar"} component={TabBar} />
+        <Stack.Screen name={"Payment"} component={Payment} />
       </Stack.Navigator>
     </NavigationContainer>
   );

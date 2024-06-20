@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   FlatList,
   Image,
-  Pressable,
 } from "react-native";
 import React from "react";
 import Octicons from "react-native-vector-icons/Octicons";
@@ -38,14 +37,14 @@ const Table = () => {
         <FlatList
           data={tableList}
           renderItem={({ item }) => (
-            <Pressable
+            <TouchableOpacity
               style={styles.tableCard}
               /* Value Passing */
-              onPress={() => navigation.navigate("Home", { table: item })}
+              onPress={() => navigation.navigate("TabBar", { table: item })}
             >
               <Image source={item.image} style={styles.tableImage} />
               <Text style={styles.tableText}>{item.name}</Text>
-            </Pressable>
+            </TouchableOpacity>
           )}
           numColumns={2}
           columnWrapperStyle={{ justifyContent: "space-evenly" }}

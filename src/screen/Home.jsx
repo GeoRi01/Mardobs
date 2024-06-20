@@ -7,7 +7,6 @@ import {
   TextInput,
   ScrollView,
   FlatList,
-  Pressable,
   Image,
 } from "react-native";
 import React, { useEffect, useState } from "react";
@@ -16,22 +15,18 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { colors } from "../utils/colors";
 import { fonts } from "../utils/font";
 import { useNavigation } from "@react-navigation/native";
-import { categoryList as originalCategoryList } from "../utils/categoryList"; // assuming this is your original categoryList
+import { categoryList as originalCategoryList } from "../utils/categoryList";
 import { foodList } from "../utils/foodList";
 
 const { width, height } = Dimensions.get("window");
 
-// Add "All" category to the beginning of the categoryList
 const categoryList = [{ category: "All" }, ...originalCategoryList];
 
-const Home = ({ route }) => {
+const Home = () => {
   const navigation = useNavigation();
   const handleGoBack = () => {
     navigation.goBack();
   };
-
-  const { table } = route.params;
-  console.log(table);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -128,13 +123,13 @@ const Home = ({ route }) => {
         <FlatList
           data={filteredFoodList}
           renderItem={({ item }) => (
-            <Pressable
+            <TouchableOpacity
               style={styles.foodCard}
               onPress={() => navigation.navigate("Details", { item: item })}
             >
               <Image source={item.image} style={styles.foodImage} />
               <Text style={styles.foodText}>{item.name}</Text>
-            </Pressable>
+            </TouchableOpacity>
           )}
           numColumns={2}
           columnWrapperStyle={{ justifyContent: "space-between" }}
@@ -169,26 +164,27 @@ const styles = StyleSheet.create({
     marginHorizontal: width * 0.03,
     backgroundColor: "#fff",
     flexDirection: "row",
-    paddingVertical: 16,
-    borderRadius: 50,
-    paddingHorizontal: 16,
-    marginVertical: 16,
+    paddingVertical: height * 0.016,
+    borderRadius: 20,
+    paddingHorizontal: width * 0.03,
+    marginVertical: height * 0.016,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 7,
   },
   searchText: {
-    paddingLeft: 8,
-    fontSize: 16,
+    paddingLeft: width * 0.008,
+    fontSize: width * 0.026,
+    fontFamily: fonts.Regular,
     flex: 1,
   },
   categoryContainer: {
-    marginTop: 22,
+    marginTop: height * 0.008,
   },
   categoryText: {
     marginHorizontal: width * 0.03,
-    fontSize: 25,
+    fontSize: width * 0.05,
     fontFamily: fonts.SemiBold,
     color: colors.white,
   },
@@ -198,27 +194,26 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   categoryCard: {
-    marginHorizontal: width * 0.03,
-    marginRight: 36,
-    borderRadius: 15,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
+    marginHorizontal: width * 0.025,
+    marginRight: width * 0.08,
+    borderRadius: 20,
+    paddingHorizontal: width * 0.03,
+    paddingVertical: height * 0.01,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 7,
-    marginVertical: 16,
+    marginVertical: height * 0.016,
   },
   categoryCardText: {
-    fontSize: 20,
+    fontSize: width * 0.035,
     fontFamily: fonts.Medium,
   },
   foodContainer: {
     flex: 1,
-    marginTop: 16,
   },
   flatListContent: {
-    paddingBottom: height * 0.02,
+    paddingBottom: height * 0.075,
     paddingHorizontal: width * 0.03,
   },
   foodCard: {
@@ -227,7 +222,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 7,
-    borderRadius: 15,
+    borderRadius: 20,
     marginVertical: height * 0.01,
     alignItems: "center",
     paddingHorizontal: width * 0.008,
@@ -238,9 +233,10 @@ const styles = StyleSheet.create({
     width: width * 0.4,
     height: height * 0.25,
     resizeMode: "cover",
+    borderRadius: 20,
   },
   foodText: {
-    marginTop: 10,
+    marginTop: height * 0.01,
     fontSize: width * 0.035,
     fontFamily: fonts.Medium,
   },
