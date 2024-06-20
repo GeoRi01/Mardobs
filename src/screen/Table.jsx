@@ -30,7 +30,7 @@ const Table = () => {
       </View>
       {/* Sub Header */}
       <View style={styles.subContainer}>
-        <Text style={styles.subText}>Tables:</Text>
+        <Text style={styles.subText}>Tables</Text>
       </View>
       {/* List */}
       <View style={styles.tableContainer}>
@@ -69,18 +69,18 @@ const styles = StyleSheet.create({
   },
   headerText: {
     flex: 1,
-    fontSize: width * 0.04,
+    fontSize: width * 0.045,
     fontFamily: fonts.SemiBold,
     color: colors.white,
   },
   subContainer: {
-    marginTop: height * 0.02,
+    marginTop: height * 0.01,
   },
   subText: {
-    fontSize: width * 0.04,
-    fontFamily: fonts.SemiBold,
-    color: colors.gray,
     marginHorizontal: width * 0.03,
+    fontSize: width * 0.045,
+    fontFamily: fonts.SemiBold,
+    color: colors.white,
   },
   tableContainer: {
     flex: 1,
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: width * 0.008,
     paddingVertical: height * 0.02,
-    marginTop: height * 0.02,
+    width: width * 0.45,
   },
   tableImage: {
     width: width * 0.4,
@@ -104,7 +104,9 @@ const styles = StyleSheet.create({
     resizeMode: "center",
   },
   tableText: {
+    marginTop: height * 0.01,
     fontSize: width * 0.035,
     fontFamily: fonts.Medium,
+    color: colors.primary,
   },
 });

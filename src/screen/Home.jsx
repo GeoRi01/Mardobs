@@ -129,6 +129,20 @@ const Home = () => {
             >
               <Image source={item.image} style={styles.foodImage} />
               <Text style={styles.foodText}>{item.name}</Text>
+              <View style={styles.foodCardFooter}>
+                <Text style={styles.foodCardFooterSign}>
+                  ₱<Text style={styles.foodCardFooterText}>{item.price}</Text>
+                </Text>
+                <TouchableOpacity>
+                  <Ionicons
+                    name={"add"}
+                    size={width * 0.06}
+                    color={colors.white}
+                    backgroundColor={colors.orange}
+                    style={styles.foodCardFooterIcon}
+                  />
+                </TouchableOpacity>
+              </View>
             </TouchableOpacity>
           )}
           numColumns={2}
@@ -239,5 +253,27 @@ const styles = StyleSheet.create({
     marginTop: height * 0.01,
     fontSize: width * 0.035,
     fontFamily: fonts.Medium,
+    color: colors.primary,
+  },
+  foodCardFooterIcon: {
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  foodCardFooterText: {
+    fontSize: width * 0.035,
+    fontFamily: fonts.SemiBold,
+    color: colors.primary,
+  },
+  foodCardFooterSign: {
+    fontSize: width * 0.04,
+    fontFamily: fonts.SemiBold,
+    color: colors.orange,
+  },
+  foodCardFooter: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: width * 0.4,
   },
 });

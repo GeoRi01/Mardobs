@@ -46,6 +46,18 @@ const Details = ({ route }) => {
         <Text style={styles.imageText}>{item.name}</Text>
         <Text style={styles.imageDescription}>{item.description}</Text>
       </View>
+      <View style={styles.priceFooter}>
+        <View style={styles.priceContainer}>
+          <Text style={styles.priceTitle}>Price</Text>
+          <Text style={styles.priceText}>
+            {" "}
+            ₱<Text style={styles.price}>{item.price}</Text>
+          </Text>
+        </View>
+        <TouchableOpacity style={styles.payButton}>
+          <Text style={styles.buttonText}>Add To Cart</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -99,5 +111,43 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Medium,
     marginVertical: 16,
     textAlign: "justify",
+  },
+  priceFooter: {
+    backgroundColor: colors.white,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 20,
+    padding: 20,
+  },
+  priceContainer: {
+    alignItems: "center",
+    width: 100,
+  },
+  priceTitle: {
+    fontFamily: fonts.Medium,
+    fontSize: 16,
+    color: colors.dark1,
+  },
+  priceText: {
+    fontFamily: fonts.SemiBold,
+    fontSize: 24,
+    color: colors.orange,
+  },
+  price: {
+    color: colors.primary,
+  },
+  payButton: {
+    backgroundColor: colors.orange,
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    height: 80,
+    borderRadius: 20,
+  },
+  buttonText: {
+    fontFamily: fonts.SemiBold,
+    fontSize: 18,
+    color: colors.white,
   },
 });
