@@ -17,6 +17,8 @@ import { fonts } from "../utils/font";
 import { useNavigation } from "@react-navigation/native";
 import { categoryList as originalCategoryList } from "../utils/categoryList";
 import { foodList } from "../utils/foodList";
+import { useCart } from "../provider/cartprovider";
+import Toast from "react-native-toast-message";
 
 const { width, height } = Dimensions.get("window");
 
@@ -31,6 +33,7 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [filteredFoodList, setFilteredFoodList] = useState(foodList);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     filterFoodList();
@@ -56,6 +59,19 @@ const Home = () => {
 
   const handleCategoryPress = (category) => {
     setSelectedCategory(category === selectedCategory ? "All" : category);
+  };
+
+  const handleAddToCart = (item) => {
+    addToCart(item);
+    Toast.show({
+      type: "success",
+      text1: `${item.name} added to cart!`,
+      position: "bottom",
+      text1Style: {
+        fontSize: 18,
+        fontFamily: fonts.SemiBold,
+      },
+    });
   };
 
   return (
@@ -133,7 +149,7 @@ const Home = () => {
                 <Text style={styles.foodCardFooterSign}>
                   ₱<Text style={styles.foodCardFooterText}>{item.price}</Text>
                 </Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => handleAddToCart(item)}>
                   <Ionicons
                     name={"add"}
                     size={width * 0.06}

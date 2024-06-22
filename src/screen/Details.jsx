@@ -12,6 +12,7 @@ import { colors } from "../utils/colors";
 import { fonts } from "../utils/font";
 import { useNavigation } from "@react-navigation/native";
 import { useCart } from "../provider/cartprovider";
+import Toast from "react-native-toast-message";
 
 const { width, height } = Dimensions.get("window");
 
@@ -24,8 +25,18 @@ const Details = ({ route }) => {
   const handleGoBack = () => {
     navigation.goBack();
   };
-  const handleAddToCart = () => {
+  const handleAddToCart = (item) => {
     addToCart(item);
+    const toastConfig = {
+      type: "success",
+      text1: `${item.name} added to cart!`,
+      position: "bottom",
+      text1Style: {
+        fontSize: 18,
+        fontFamily: fonts.SemiBold,
+      },
+    };
+    Toast.show(toastConfig);
   };
   return (
     <View style={styles.container}>
@@ -59,7 +70,10 @@ const Details = ({ route }) => {
             ₱<Text style={styles.price}>{item.price}</Text>
           </Text>
         </View>
-        <TouchableOpacity style={styles.payButton} onPress={handleAddToCart}>
+        <TouchableOpacity
+          style={styles.payButton}
+          onPress={() => handleAddToCart(item)}
+        >
           <Text style={styles.buttonText}>Add To Cart</Text>
         </TouchableOpacity>
       </View>
