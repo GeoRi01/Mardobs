@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  FlatList,
   Dimensions,
   StyleSheet,
   TouchableOpacity,
@@ -9,6 +8,7 @@ import {
   Image,
 } from "react-native";
 import React from "react";
+import Swipeable from "react-native-gesture-handler/Swipeable";
 import Octicons from "react-native-vector-icons/Octicons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import AntDesign from "react-native-vector-icons/AntDesign";
@@ -19,7 +19,22 @@ import { useCart } from "../provider/cartprovider";
 const { width, height } = Dimensions.get("window");
 
 const Cart = () => {
-  const { cart, increaseQuantity, decreaseQuantity, getTotalPrice } = useCart();
+  const {
+    cart,
+    increaseQuantity,
+    decreaseQuantity,
+    getTotalPrice,
+    removeItem,
+  } = useCart();
+
+  const renderRightActions = (itemId) => (
+    <TouchableOpacity
+      style={styles.deleteButton}
+      onPress={() => removeItem(itemId)}
+    >
+      <Octicons name="trash" size={30} color={colors.white} />
+    </TouchableOpacity>
+  );
 
   return (
     <View style={styles.container}>
@@ -35,47 +50,56 @@ const Cart = () => {
       >
         <View style={styles.scrollViewInnerView}>
           {cart.map((item) => (
-            <View key={item.id} style={styles.itemContainer}>
-              <View style={styles.itemContainerColor}>
-                <View style={styles.cartItemRow}>
-                  <Image source={item.image} style={styles.cartItemImage} />
-                  <View style={styles.cartItemInfo}>
-                    <View>
-                      <Text style={styles.cartItemTitle}>{item.name}</Text>
-                      <Text style={styles.cartItemSubtitle}>
-                        {item.category}
-                      </Text>
-                      <View style={styles.cartItemSingleQuantityContainer}>
-                        <Text style={styles.cartPriceText}>
-                          ₱<Text style={styles.cartPrice}>{item.price}</Text>
+            <Swipeable
+              key={item.id}
+              renderRightActions={() => renderRightActions(item.id)}
+            >
+              <View key={item.id} style={styles.itemContainer}>
+                <View style={styles.itemContainerColor}>
+                  <View style={styles.cartItemRow}>
+                    <Image source={item.image} style={styles.cartItemImage} />
+                    <View style={styles.cartItemInfo}>
+                      <View>
+                        <Text style={styles.cartItemTitle}>{item.name}</Text>
+                        <Text style={styles.cartItemSubtitle}>
+                          {item.category}
                         </Text>
-                        <TouchableOpacity
-                          style={styles.cartItemIcon}
-                          onPress={() => decreaseQuantity(item.id)}
-                        >
-                          <AntDesign
-                            name="minus"
-                            color={colors.white}
-                            size={25}
-                          />
-                        </TouchableOpacity>
-                        <View style={styles.cartItemQuantityContainer}>
-                          <Text style={styles.cartItemQuantityText}>
-                            {item.quantity}
+                        <View style={styles.cartItemSingleQuantityContainer}>
+                          <Text style={styles.cartPriceText}>
+                            ₱<Text style={styles.cartPrice}>{item.price}</Text>
                           </Text>
+                          <TouchableOpacity
+                            style={styles.cartItemIcon}
+                            onPress={() => decreaseQuantity(item.id)}
+                          >
+                            <AntDesign
+                              name="minus"
+                              color={colors.white}
+                              size={25}
+                            />
+                          </TouchableOpacity>
+                          <View style={styles.cartItemQuantityContainer}>
+                            <Text style={styles.cartItemQuantityText}>
+                              {item.quantity}
+                            </Text>
+                          </View>
+                          <TouchableOpacity
+                            style={styles.cartItemIcon}
+                            onPress={() => increaseQuantity(item.id)}
+                          >
+                            <Ionicons
+                              name="add"
+                              color={colors.white}
+                              size={25}
+                            />
+                          </TouchableOpacity>
                         </View>
-                        <TouchableOpacity
-                          style={styles.cartItemIcon}
-                          onPress={() => increaseQuantity(item.id)}
-                        >
-                          <Ionicons name="add" color={colors.white} size={25} />
-                        </TouchableOpacity>
                       </View>
                     </View>
                   </View>
                 </View>
               </View>
-            </View>
+            </Swipeable>
           ))}
         </View>
       </ScrollView>
@@ -222,5 +246,16 @@ const styles = StyleSheet.create({
     fontFamily: fonts.SemiBold,
     fontSize: width * 0.035,
     color: colors.white,
+  },
+  deleteButton: {
+    backgroundColor: colors.red,
+    justifyContent: "center",
+    alignItems: "center",
+    width: 100,
+    height: "80%",
+    borderRadius: 20,
+    marginRight: 10,
+    marginTop: 20,
+    marginBottom: 10,
   },
 });

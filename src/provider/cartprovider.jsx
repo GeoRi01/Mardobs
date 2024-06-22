@@ -38,6 +38,10 @@ export const CartProvider = ({ children }) => {
     );
   };
 
+  const removeItem = (itemId) => {
+    setCart((prevCart) => prevCart.filter((item) => item.id !== itemId));
+  };
+
   const getTotalPrice = () => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
   };
@@ -49,6 +53,7 @@ export const CartProvider = ({ children }) => {
         addToCart,
         increaseQuantity,
         decreaseQuantity,
+        removeItem,
         getTotalPrice,
       }}
     >
