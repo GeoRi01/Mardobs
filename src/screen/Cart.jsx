@@ -44,76 +44,89 @@ const Cart = () => {
           <Octicons name={"person"} size={width * 0.07} color={colors.orange} />
         </TouchableOpacity>
       </View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollViewFlex}
-      >
-        <View style={styles.scrollViewInnerView}>
-          {cart.map((item) => (
-            <Swipeable
-              key={item.id}
-              renderRightActions={() => renderRightActions(item.id)}
-            >
-              <View key={item.id} style={styles.itemContainer}>
-                <View style={styles.itemContainerColor}>
-                  <View style={styles.cartItemRow}>
-                    <Image source={item.image} style={styles.cartItemImage} />
-                    <View style={styles.cartItemInfo}>
-                      <View>
-                        <Text style={styles.cartItemTitle}>{item.name}</Text>
-                        <Text style={styles.cartItemSubtitle}>
-                          {item.category}
-                        </Text>
-                        <View style={styles.cartItemSingleQuantityContainer}>
-                          <Text style={styles.cartPriceText}>
-                            ₱<Text style={styles.cartPrice}>{item.price}</Text>
+      {cart.length === 0 ? (
+        <View style={styles.emptyCartContainer}>
+          <Image
+            source={require("../assets/empty.png")}
+            style={styles.emptyCartImage}
+          />
+          <Text style={styles.emptyCartText}>Your cart is empty</Text>
+        </View>
+      ) : (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scrollViewFlex}
+        >
+          <View style={styles.scrollViewInnerView}>
+            {cart.map((item) => (
+              <Swipeable
+                key={item.id}
+                renderRightActions={() => renderRightActions(item.id)}
+              >
+                <View key={item.id} style={styles.itemContainer}>
+                  <View style={styles.itemContainerColor}>
+                    <View style={styles.cartItemRow}>
+                      <Image source={item.image} style={styles.cartItemImage} />
+                      <View style={styles.cartItemInfo}>
+                        <View>
+                          <Text style={styles.cartItemTitle}>{item.name}</Text>
+                          <Text style={styles.cartItemSubtitle}>
+                            {item.category}
                           </Text>
-                          <TouchableOpacity
-                            style={styles.cartItemIcon}
-                            onPress={() => decreaseQuantity(item.id)}
-                          >
-                            <AntDesign
-                              name="minus"
-                              color={colors.white}
-                              size={width * 0.04}
-                            />
-                          </TouchableOpacity>
-                          <View style={styles.cartItemQuantityContainer}>
-                            <Text style={styles.cartItemQuantityText}>
-                              {item.quantity}
+                          <View style={styles.cartItemSingleQuantityContainer}>
+                            <Text style={styles.cartPriceText}>
+                              ₱
+                              <Text style={styles.cartPrice}>{item.price}</Text>
                             </Text>
+                            <TouchableOpacity
+                              style={styles.cartItemIcon}
+                              onPress={() => decreaseQuantity(item.id)}
+                            >
+                              <AntDesign
+                                name="minus"
+                                color={colors.white}
+                                size={width * 0.04}
+                              />
+                            </TouchableOpacity>
+                            <View style={styles.cartItemQuantityContainer}>
+                              <Text style={styles.cartItemQuantityText}>
+                                {item.quantity}
+                              </Text>
+                            </View>
+                            <TouchableOpacity
+                              style={styles.cartItemIcon}
+                              onPress={() => increaseQuantity(item.id)}
+                            >
+                              <Ionicons
+                                name="add"
+                                color={colors.white}
+                                size={width * 0.04}
+                              />
+                            </TouchableOpacity>
                           </View>
-                          <TouchableOpacity
-                            style={styles.cartItemIcon}
-                            onPress={() => increaseQuantity(item.id)}
-                          >
-                            <Ionicons
-                              name="add"
-                              color={colors.white}
-                              size={width * 0.04}
-                            />
-                          </TouchableOpacity>
                         </View>
                       </View>
                     </View>
                   </View>
                 </View>
-              </View>
-            </Swipeable>
-          ))}
+              </Swipeable>
+            ))}
+          </View>
+        </ScrollView>
+      )}
+      {cart.length > 0 && (
+        <View style={styles.priceFooter}>
+          <View style={styles.priceContainer}>
+            <Text style={styles.priceTitle}>Total</Text>
+            <Text style={styles.priceText}>
+              ₱<Text style={styles.price}>{getTotalPrice().toFixed(2)}</Text>
+            </Text>
+          </View>
+          <TouchableOpacity style={styles.payButton}>
+            <Text style={styles.buttonText}>Pay</Text>
+          </TouchableOpacity>
         </View>
-      </ScrollView>
-      <View style={styles.priceFooter}>
-        <View style={styles.priceContainer}>
-          <Text style={styles.priceTitle}>Total</Text>
-          <Text style={styles.priceText}>
-            ₱<Text style={styles.price}>{getTotalPrice().toFixed(2)}</Text>
-          </Text>
-        </View>
-        <TouchableOpacity style={styles.payButton}>
-          <Text style={styles.buttonText}>Pay</Text>
-        </TouchableOpacity>
-      </View>
+      )}
     </View>
   );
 };
@@ -258,5 +271,21 @@ const styles = StyleSheet.create({
     marginRight: width * 0.02,
     marginTop: height * 0.02,
     marginBottom: height * 0.02,
+  },
+  emptyCartContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  emptyCartImage: {
+    width: width * 0.4,
+    height: height * 0.3,
+    resizeMode: "cover",
+  },
+  emptyCartText: {
+    fontSize: width * 0.04,
+    fontFamily: fonts.Medium,
+    color: colors.white,
+    marginTop: height * 0.02,
   },
 });

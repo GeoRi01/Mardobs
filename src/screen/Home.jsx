@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
     color: colors.primary,
   },
   foodCardFooterIcon: {
-    borderRadius: 8,
+    borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
   },
