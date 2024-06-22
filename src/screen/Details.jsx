@@ -11,16 +11,22 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { colors } from "../utils/colors";
 import { fonts } from "../utils/font";
 import { useNavigation } from "@react-navigation/native";
+import { useCart } from "../provider/cartprovider";
 
 const { width, height } = Dimensions.get("window");
 
 const Details = ({ route }) => {
   const navigation = useNavigation();
+  const { addToCart } = useCart();
+  const { item } = route.params;
+  console.log(item);
+
   const handleGoBack = () => {
     navigation.goBack();
   };
-  const { item } = route.params;
-  console.log(item);
+  const handleAddToCart = () => {
+    addToCart(item);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -50,11 +56,10 @@ const Details = ({ route }) => {
         <View style={styles.priceContainer}>
           <Text style={styles.priceTitle}>Price</Text>
           <Text style={styles.priceText}>
-            {" "}
             ₱<Text style={styles.price}>{item.price}</Text>
           </Text>
         </View>
-        <TouchableOpacity style={styles.payButton}>
+        <TouchableOpacity style={styles.payButton} onPress={handleAddToCart}>
           <Text style={styles.buttonText}>Add To Cart</Text>
         </TouchableOpacity>
       </View>

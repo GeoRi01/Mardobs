@@ -12,23 +12,26 @@ import Details from "./src/screen/Details";
 import TabBar from "./src/screen/TabBar";
 import Payment from "./src/screen/Payment";
 import Forgot from "./src/screen/Forgot";
+import { CartProvider } from "./src/provider/cartprovider";
 
 const Stack = createNativeStackNavigator();
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name={"Welcome"} component={Welcome} />
-        <Stack.Screen name={"Login"} component={Login} />
-        <Stack.Screen name={"Signup"} component={Signup} />
-        <Stack.Screen name={"Forgot"} component={Forgot} />
-        <Stack.Screen name={"Table"} component={Table} />
-        <Stack.Screen name={"Home"} component={Home} />
-        <Stack.Screen name={"Details"} component={Details} />
-        <Stack.Screen name={"TabBar"} component={TabBar} />
-        <Stack.Screen name={"Payment"} component={Payment} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <CartProvider>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name={"Welcome"} component={Welcome} />
+          <Stack.Screen name={"Login"} component={Login} />
+          <Stack.Screen name={"Signup"} component={Signup} />
+          <Stack.Screen name={"Forgot"} component={Forgot} />
+          <Stack.Screen name={"Table"} component={Table} />
+          <Stack.Screen name={"Home"} component={Home} />
+          <Stack.Screen name={"Details"} component={Details} />
+          <Stack.Screen name={"TabBar"} component={TabBar} />
+          <Stack.Screen name={"Payment"} component={Payment} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </CartProvider>
   );
 };
 
