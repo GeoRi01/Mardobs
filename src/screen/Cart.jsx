@@ -32,7 +32,7 @@ const Cart = () => {
       style={styles.deleteButton}
       onPress={() => removeItem(itemId)}
     >
-      <Octicons name="trash" size={30} color={colors.white} />
+      <Octicons name="trash" size={width * 0.05} color={colors.white} />
     </TouchableOpacity>
   );
 
@@ -75,7 +75,7 @@ const Cart = () => {
                             <AntDesign
                               name="minus"
                               color={colors.white}
-                              size={25}
+                              size={width * 0.04}
                             />
                           </TouchableOpacity>
                           <View style={styles.cartItemQuantityContainer}>
@@ -90,7 +90,7 @@ const Cart = () => {
                             <Ionicons
                               name="add"
                               color={colors.white}
-                              size={25}
+                              size={width * 0.04}
                             />
                           </TouchableOpacity>
                         </View>
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   headerText: {
-    fontSize: width * 0.045,
+    fontSize: width * 0.05,
     fontFamily: fonts.SemiBold,
     color: colors.white,
   },
@@ -143,43 +143,43 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   itemContainer: {
-    padding: 20,
+    padding: width * 0.03,
   },
   itemContainerColor: {
     backgroundColor: colors.white,
     flex: 1,
-    gap: 12,
-    padding: 12,
-    borderRadius: 20,
+    padding: width * 0.025,
+    borderRadius: 25,
   },
   cartItemRow: {
     flexDirection: "row",
-    gap: 12,
+    gap: width * 0.02,
     flex: 1,
   },
   cartItemImage: {
-    height: 130,
-    width: 130,
-    borderRadius: 20,
+    height: height * 0.13,
+    width: width * 0.23,
+    borderRadius: 25,
   },
   cartItemInfo: {
     flex: 1,
-    paddingVertical: 4,
+    paddingVertical: height * 0.005,
     justifyContent: "space-between",
   },
   cartItemTitle: {
     fontFamily: fonts.Medium,
-    fontSize: 25,
+    fontSize: width * 0.043,
     color: colors.primary,
   },
   cartItemSubtitle: {
     fontFamily: fonts.Regular,
-    fontSize: 18,
+    fontSize: width * 0.03,
     color: colors.dark1,
   },
   cartItemSingleQuantityContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    marginTop: height * 0.01,
   },
   cartPriceText: {
     fontFamily: fonts.SemiBold,
@@ -191,21 +191,22 @@ const styles = StyleSheet.create({
   },
   cartItemIcon: {
     backgroundColor: colors.orange,
-    padding: 7,
-    borderRadius: 20,
+    padding: width * 0.015,
+    borderRadius: 100,
   },
   cartItemQuantityContainer: {
     backgroundColor: colors.white,
-    width: 100,
-    borderRadius: 20,
+    width: width * 0.2,
+    borderRadius: 25,
     borderWidth: 2,
     borderColor: colors.orange,
     alignItems: "center",
-    paddingVertical: 4,
+    justifyContent: "center",
+    paddingVertical: height * 0.004,
   },
   cartItemQuantityText: {
     fontFamily: fonts.SemiBold,
-    fontSize: 16,
+    fontSize: width * 0.025,
     color: colors.primary,
   },
   priceFooter: {
@@ -240,7 +241,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     height: height * 0.08,
-    borderRadius: 20,
+    borderRadius: 25,
   },
   buttonText: {
     fontFamily: fonts.SemiBold,
@@ -251,11 +252,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.red,
     justifyContent: "center",
     alignItems: "center",
-    width: 100,
-    height: "80%",
-    borderRadius: 20,
-    marginRight: 10,
-    marginTop: 20,
-    marginBottom: 10,
+    width: width * 0.12,
+    height: height * 0.15,
+    borderRadius: 25,
+    marginRight: width * 0.02,
+    marginTop: height * 0.02,
+    marginBottom: height * 0.02,
   },
 });
