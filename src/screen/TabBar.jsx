@@ -1,21 +1,37 @@
 import { StyleSheet, Text, View, Dimensions } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Octicons from "react-native-vector-icons/Octicons";
 import Feather from "react-native-vector-icons/Feather";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BlurView } from "@react-native-community/blur";
 import Home from "./Home";
-import { colors } from "../utils/colors";
 import Cart from "./Cart";
 import Favorites from "./Favorites";
 import History from "./History";
+import { useRoute } from "@react-navigation/native";
+import { colors } from "../utils/colors";
 
 const { width, height } = Dimensions.get("window");
 const Tab = createBottomTabNavigator();
 
-const TabBar = ({ route }) => {
-  const { table } = route.params;
-  console.log(table);
+const TabBar = () => {
+  const route = useRoute();
+  const [table, setTable] = useState(null);
+
+  useEffect(() => {
+    const tableData = route.params?.table;
+    console.log("TabBar mounted with table: ", tableData);
+    setTable(tableData);
+  }, [route.params?.table]);
+
+  if (!table) {
+    return (
+      <View style={styles.container}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -91,6 +107,11 @@ const TabBar = ({ route }) => {
 export default TabBar;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   tabBarStyle: {
     height: height * 0.07,
     position: "absolute",

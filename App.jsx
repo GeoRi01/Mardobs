@@ -11,6 +11,7 @@ import Home from "./src/screen/Home";
 import Details from "./src/screen/Details";
 import TabBar from "./src/screen/TabBar";
 import Payment from "./src/screen/Payment";
+import Forgot from "./src/screen/Forgot";
 
 const Stack = createNativeStackNavigator();
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
         <Stack.Screen name={"Welcome"} component={Welcome} />
         <Stack.Screen name={"Login"} component={Login} />
         <Stack.Screen name={"Signup"} component={Signup} />
+        <Stack.Screen name={"Forgot"} component={Forgot} />
         <Stack.Screen name={"Table"} component={Table} />
         <Stack.Screen name={"Home"} component={Home} />
         <Stack.Screen name={"Details"} component={Details} />

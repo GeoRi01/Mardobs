@@ -15,21 +15,14 @@ import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
 
-/* Navigation */
-const Login = () => {
+const Forgot = () => {
   const navigation = useNavigation();
   const [secureEntry, setSecureEntry] = useState(true);
   const handleGoBack = () => {
     navigation.goBack();
   };
-  const handleSignup = () => {
-    navigation.navigate("Signup");
-  };
-  const handleForgot = () => {
-    navigation.navigate("Forgot");
-  };
-  const handleTable = () => {
-    navigation.navigate("Table");
+  const handleLogin = () => {
+    navigation.navigate("Login");
   };
   return (
     <View style={styles.container}>
@@ -43,9 +36,8 @@ const Login = () => {
       </TouchableOpacity>
       {/* Text */}
       <View style={styles.textContainer}>
-        <Text style={styles.headingText}>Hello,</Text>
-        <Text style={styles.headingText}>Welcome</Text>
-        <Text style={styles.headingText}>Back</Text>
+        <Text style={styles.headingText}>Forgot your</Text>
+        <Text style={styles.headingText}>Password?</Text>
       </View>
       {/* Input Box */}
       <View style={styles.formContainer}>
@@ -62,46 +54,18 @@ const Login = () => {
             keyboardType="email-address"
           />
         </View>
-        <View style={styles.inputContainer}>
-          <SimpleLineIcons
-            name={"lock"}
-            color={colors.gray}
-            size={width * 0.05}
-          />
-          <TextInput
-            style={styles.textInput}
-            placeholder="Enter your password"
-            placeholderTextColor={colors.gray}
-            secureTextEntry={secureEntry}
-          />
-          <TouchableOpacity
-            onPress={() => {
-              setSecureEntry((prev) => !prev);
-            }}
-          >
-            <SimpleLineIcons
-              name={"eye"}
-              color={colors.gray}
-              size={width * 0.04}
-            />
-          </TouchableOpacity>
-          {/* Forgot Page */}
-        </View>
-        <TouchableOpacity onPress={handleForgot}>
-          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-        </TouchableOpacity>
         {/* Button */}
         <TouchableOpacity
-          style={styles.loginButtonWrapper}
-          onPress={handleTable}
+          style={styles.resetButtonWrapper}
+          onPress={handleLogin}
         >
-          <Text style={styles.loginText}>Login</Text>
+          <Text style={styles.resetText}>Reset</Text>
         </TouchableOpacity>
         {/* Footer */}
         <View style={styles.footerContainer}>
-          <Text style={styles.accountText}>Don't have an account?</Text>
-          <TouchableOpacity onPress={handleSignup}>
-            <Text style={styles.signupText}>Sign up</Text>
+          <Text style={styles.accountText}>Already have an account?</Text>
+          <TouchableOpacity onPress={handleLogin}>
+            <Text style={styles.loginText}>Login</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -109,7 +73,7 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Forgot;
 
 const styles = StyleSheet.create({
   container: {
@@ -133,7 +97,6 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontFamily: fonts.SemiBold,
   },
-  formContainer: {},
   inputContainer: {
     borderWidth: 1,
     borderColor: colors.gray,
@@ -151,21 +114,15 @@ const styles = StyleSheet.create({
     fontSize: width * 0.025,
     color: colors.gray,
   },
-  forgotPasswordText: {
-    textAlign: "right",
-    color: colors.gray,
-    fontSize: width * 0.025,
-    fontFamily: fonts.SemiBold,
-  },
-  loginButtonWrapper: {
+  resetButtonWrapper: {
     backgroundColor: colors.white,
     borderRadius: 100,
-    marginTop: height * 0.25,
+    marginTop: height * 0.47,
     justifyContent: "center",
     alignItems: "center",
     height: height * 0.07,
   },
-  loginText: {
+  resetText: {
     color: colors.primary,
     fontSize: width * 0.04,
     fontFamily: fonts.SemiBold,
@@ -183,7 +140,7 @@ const styles = StyleSheet.create({
     fontSize: width * 0.025,
     fontFamily: fonts.Regular,
   },
-  signupText: {
+  loginText: {
     color: colors.white,
     fontSize: width * 0.025,
     fontFamily: fonts.Bold,
