@@ -10,7 +10,6 @@ import Table from "./src/screen/Table";
 import Home from "./src/screen/Home";
 import Details from "./src/screen/Details";
 import TabBar from "./src/screen/TabBar";
-import Payment from "./src/screen/Payment";
 import Forgot from "./src/screen/Forgot";
 import { CartProvider } from "./src/provider/cartprovider";
 import Toast from "react-native-toast-message";
@@ -32,7 +31,6 @@ const App = () => {
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="Details" component={Details} />
             <Stack.Screen name="TabBar" component={TabBar} />
-            <Stack.Screen name="Payment" component={Payment} />
           </Stack.Navigator>
         </NavigationContainer>
         <Toast ref={(ref) => Toast.setRef(ref)} />

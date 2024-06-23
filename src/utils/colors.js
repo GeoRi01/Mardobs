@@ -7,4 +7,5 @@ export const colors = {
   orange: "#FC4100",
   dark1: "#5C5470",
   red: "#C40C0C",
+  blackrgba: "rgba(12,15,20,0.5)",
 };
