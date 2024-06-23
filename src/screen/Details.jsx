@@ -48,7 +48,7 @@ const Details = ({ route }) => {
         text1: `${item.name} removed to favorites!`,
         position: "bottom",
         text1Style: {
-          fontSize: 18,
+          fontSize: width * 0.025,
           fontFamily: fonts.SemiBold,
         },
       };
@@ -60,7 +60,7 @@ const Details = ({ route }) => {
         text1: `${item.name} added to favorites!`,
         position: "bottom",
         text1Style: {
-          fontSize: 18,
+          fontSize: width * 0.025,
           fontFamily: fonts.SemiBold,
         },
       };

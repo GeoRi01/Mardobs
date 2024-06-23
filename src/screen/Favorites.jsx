@@ -29,7 +29,7 @@ const Favorites = () => {
       text1: `${item.name} removed from favorites!`,
       position: "bottom",
       text1Style: {
-        fontSize: 18,
+        fontSize: width * 0.025,
         fontFamily: fonts.SemiBold,
       },
     });
@@ -56,7 +56,12 @@ const Favorites = () => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollViewFlex}
         >
-          <View style={[styles.scrollViewInnerView, { marginBottom: 80 }]}>
+          <View
+            style={[
+              styles.scrollViewInnerView,
+              { marginBottom: height * 0.075 },
+            ]}
+          >
             {favorites.map((item) => (
               <View style={styles.itemContainer} key={item.id}>
                 <View style={styles.listItemContainer}>
@@ -155,8 +160,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   listItemContainer: {
-    padding: 20,
-    gap: 20,
+    padding: width * 0.035,
+    gap: width * 0.02,
   },
   cardContainer: {
     borderRadius: 25,
@@ -168,7 +173,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   imageHeaderBarContainer: {
-    padding: 30,
+    padding: width * 0.035,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
@@ -179,15 +184,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   imageInfoOuterContainer: {
-    paddingVertical: 24,
-    paddingHorizontal: 30,
+    paddingVertical: height * 0.024,
+    paddingHorizontal: width * 0.035,
     backgroundColor: colors.blackrgba,
     borderTopLeftRadius: 20 * 2,
     borderTopRightRadius: 20 * 2,
   },
   imageInfoInnerContainer: {
     justifyContent: "space-between",
-    gap: 15,
+    gap: width * 0.015,
   },
   infoContainerRow: {
     flexDirection: "row",
@@ -208,14 +213,14 @@ const styles = StyleSheet.create({
     fontFamily: fonts.SemiBold,
     fontSize: width * 0.035,
     color: colors.orange,
-    marginTop: 15,
+    marginTop: height * 0.015,
   },
   price: {
     color: colors.white,
   },
   descriptionContainer: {
-    gap: 10,
-    padding: 20,
+    gap: width * 0.01,
+    padding: width * 0.04,
     backgroundColor: colors.dark,
   },
   descriptionTitle: {

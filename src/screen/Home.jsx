@@ -68,7 +68,7 @@ const Home = () => {
       text1: `${item.name} added to cart!`,
       position: "bottom",
       text1Style: {
-        fontSize: 18,
+        fontSize: width * 0.025,
         fontFamily: fonts.SemiBold,
       },
     });
