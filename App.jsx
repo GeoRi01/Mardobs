@@ -14,6 +14,7 @@ import Forgot from "./src/screen/Forgot";
 import { CartProvider } from "./src/provider/cartprovider";
 import Toast from "react-native-toast-message";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { FavoritesProvider } from "./src/provider/favoritesprovider";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,19 +22,21 @@ const App = () => {
   return (
     <GestureHandlerRootView>
       <CartProvider>
-        <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Welcome" component={Welcome} />
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="Signup" component={Signup} />
-            <Stack.Screen name="Forgot" component={Forgot} />
-            <Stack.Screen name="Table" component={Table} />
-            <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="Details" component={Details} />
-            <Stack.Screen name="TabBar" component={TabBar} />
-          </Stack.Navigator>
-        </NavigationContainer>
-        <Toast ref={(ref) => Toast.setRef(ref)} />
+        <FavoritesProvider>
+          <NavigationContainer>
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="Welcome" component={Welcome} />
+              <Stack.Screen name="Login" component={Login} />
+              <Stack.Screen name="Signup" component={Signup} />
+              <Stack.Screen name="Forgot" component={Forgot} />
+              <Stack.Screen name="Table" component={Table} />
+              <Stack.Screen name="Home" component={Home} />
+              <Stack.Screen name="Details" component={Details} />
+              <Stack.Screen name="TabBar" component={TabBar} />
+            </Stack.Navigator>
+          </NavigationContainer>
+          <Toast ref={(ref) => Toast.setRef(ref)} />
+        </FavoritesProvider>
       </CartProvider>
     </GestureHandlerRootView>
   );

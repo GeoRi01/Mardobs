@@ -13,14 +13,16 @@ import { fonts } from "../utils/font";
 import { useNavigation } from "@react-navigation/native";
 import { useCart } from "../provider/cartprovider";
 import Toast from "react-native-toast-message";
+import { useFavorites } from "../provider/favoritesprovider";
 
 const { width, height } = Dimensions.get("window");
 
 const Details = ({ route }) => {
   const navigation = useNavigation();
   const { addToCart } = useCart();
+  const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
   const { item } = route.params;
-  console.log(item);
+  const [isFav, setIsFav] = React.useState(isFavorite(item));
 
   const handleGoBack = () => {
     navigation.goBack();
@@ -38,6 +40,34 @@ const Details = ({ route }) => {
     };
     Toast.show(toastConfig);
   };
+  const handleToggleFavorite = () => {
+    if (isFav) {
+      removeFromFavorites(item);
+      const toastConfig = {
+        type: "error",
+        text1: `${item.name} removed to favorites!`,
+        position: "bottom",
+        text1Style: {
+          fontSize: 18,
+          fontFamily: fonts.SemiBold,
+        },
+      };
+      Toast.show(toastConfig);
+    } else {
+      addToFavorites(item);
+      const toastConfig = {
+        type: "success",
+        text1: `${item.name} added to favorites!`,
+        position: "bottom",
+        text1Style: {
+          fontSize: 18,
+          fontFamily: fonts.SemiBold,
+        },
+      };
+      Toast.show(toastConfig);
+    }
+    setIsFav(!isFav);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -48,9 +78,9 @@ const Details = ({ route }) => {
             color={colors.gray}
           />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleToggleFavorite}>
           <Ionicons
-            name={"heart-outline"}
+            name={isFav ? "heart" : "heart-outline"}
             size={width * 0.07}
             color={colors.orange}
           />

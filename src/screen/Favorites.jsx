@@ -4,6 +4,7 @@ import {
   View,
   Dimensions,
   ImageBackground,
+  Image,
 } from "react-native";
 import React from "react";
 import Octicons from "react-native-vector-icons/Octicons";
@@ -11,10 +12,27 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { colors } from "../utils/colors";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { fonts } from "../utils/font";
+import { useFavorites } from "../provider/favoritesprovider";
+import Toast from "react-native-toast-message";
 
 const { width, height } = Dimensions.get("window");
 
 const Favorites = () => {
+  const { favorites, removeFromFavorites } = useFavorites();
+
+  const handleRemoveFromFavorites = (item) => {
+    removeFromFavorites(item);
+    Toast.show({
+      type: "error",
+      text1: `${item.name} removed from favorites!`,
+      position: "bottom",
+      text1Style: {
+        fontSize: 18,
+        fontFamily: fonts.SemiBold,
+      },
+    });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -23,59 +41,73 @@ const Favorites = () => {
           <Octicons name={"person"} size={width * 0.07} color={colors.orange} />
         </TouchableOpacity>
       </View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollViewFlex}
-      >
-        <View style={[styles.scrollViewInnerView, { marginBottom: 80 }]}>
-          <View style={styles.itemContainer}>
-            <View style={styles.listItemContainer}>
-              <View style={styles.cardContainer}>
-                <View>
-                  <ImageBackground
-                    source={require("../assets/banofee.jpg")}
-                    style={styles.itemBackgroundImage}
-                  >
-                    <View style={styles.imageHeaderBarContainer}>
-                      <TouchableOpacity>
-                        <Ionicons
-                          name={"heart-outline"}
-                          size={width * 0.07}
-                          color={colors.orange}
-                          backgroundColor={colors.blackrgba}
-                          style={styles.favoriteIcon}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                    <View style={styles.imageInfoOuterContainer}>
-                      <View style={styles.imageInfoInnerContainer}>
-                        <View style={styles.infoContainerRow}>
-                          <View>
-                            <Text style={styles.itemName}>Banoffee</Text>
-                            <Text style={styles.itemCategory}>Snacks</Text>
-                            <Text style={styles.priceText}>
-                              ₱<Text style={styles.price}>50.00</Text>
-                            </Text>
+      {favorites.length === 0 ? (
+        <View style={styles.emptyFavoritesContainer}>
+          <Image
+            source={require("../assets/emptyf.png")}
+            style={styles.emptyFavoritesImage}
+          />
+          <Text style={styles.emptyFavoritesText}>No favorites yet!</Text>
+        </View>
+      ) : (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scrollViewFlex}
+        >
+          <View style={[styles.scrollViewInnerView, { marginBottom: 80 }]}>
+            {favorites.map((item) => (
+              <View style={styles.itemContainer} key={item.id}>
+                <View style={styles.listItemContainer}>
+                  <View style={styles.cardContainer}>
+                    <View>
+                      <ImageBackground
+                        source={item.image}
+                        style={styles.itemBackgroundImage}
+                      >
+                        <View style={styles.imageHeaderBarContainer}>
+                          <TouchableOpacity
+                            onPress={() => handleRemoveFromFavorites(item)}
+                          >
+                            <Ionicons
+                              name={"heart"}
+                              size={width * 0.07}
+                              color={colors.orange}
+                              backgroundColor={colors.blackrgba}
+                              style={styles.favoriteIcon}
+                            />
+                          </TouchableOpacity>
+                        </View>
+                        <View style={styles.imageInfoOuterContainer}>
+                          <View style={styles.imageInfoInnerContainer}>
+                            <View style={styles.infoContainerRow}>
+                              <View>
+                                <Text style={styles.itemName}>{item.name}</Text>
+                                <Text style={styles.itemCategory}>
+                                  {item.category}
+                                </Text>
+                                <Text style={styles.priceText}>
+                                  ₱
+                                  <Text style={styles.price}>{item.price}</Text>
+                                </Text>
+                              </View>
+                            </View>
                           </View>
                         </View>
-                      </View>
+                      </ImageBackground>
                     </View>
-                  </ImageBackground>
-                </View>
-                <View style={styles.descriptionContainer}>
-                  <Text style={styles.descriptionTitle}>Description:</Text>
-                  <Text style={styles.descriptionText}>
-                    A Banoffee pie is a British dessert pie made from bananas,
-                    whipped cream, and a thick caramel sauce, combined either on
-                    a buttery biscuit base or one made from crumbled biscuits
-                    and butter.
-                  </Text>
+                    <View style={styles.descriptionContainer}>
+                      <Text style={styles.descriptionTitle}>Description:</Text>
+                      <Text style={styles.descriptionText}>
+                        {item.description}
+                      </Text>
+                    </View>
+                  </View>
                 </View>
               </View>
-            </View>
+            ))}
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      )}
     </View>
   );
 };
@@ -109,13 +141,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   listItemContainer: {
-    paddingHorizontal: 20,
+    padding: 20,
     gap: 20,
   },
   cardContainer: {
     borderRadius: 25,
     overflow: "hidden",
-    marginTop: 10,
   },
   itemBackgroundImage: {
     width: "100%",
@@ -183,5 +214,21 @@ const styles = StyleSheet.create({
     fontSize: width * 0.03,
     color: colors.white,
     textAlign: "justify",
+  },
+  emptyFavoritesContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  emptyFavoritesImage: {
+    width: width * 0.4,
+    height: height * 0.3,
+    resizeMode: "cover",
+  },
+  emptyFavoritesText: {
+    fontSize: width * 0.04,
+    fontFamily: fonts.Medium,
+    color: colors.white,
+    marginTop: height * 0.02,
   },
 });
