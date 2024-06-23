@@ -14,10 +14,12 @@ import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { fonts } from "../utils/font";
 import { useFavorites } from "../provider/favoritesprovider";
 import Toast from "react-native-toast-message";
+import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
 
 const Favorites = () => {
+  const navigation = useNavigation();
   const { favorites, removeFromFavorites } = useFavorites();
 
   const handleRemoveFromFavorites = (item) => {
@@ -58,50 +60,62 @@ const Favorites = () => {
             {favorites.map((item) => (
               <View style={styles.itemContainer} key={item.id}>
                 <View style={styles.listItemContainer}>
-                  <View style={styles.cardContainer}>
-                    <View>
-                      <ImageBackground
-                        source={item.image}
-                        style={styles.itemBackgroundImage}
-                      >
-                        <View style={styles.imageHeaderBarContainer}>
-                          <TouchableOpacity
-                            onPress={() => handleRemoveFromFavorites(item)}
-                          >
-                            <Ionicons
-                              name={"heart"}
-                              size={width * 0.07}
-                              color={colors.orange}
-                              backgroundColor={colors.blackrgba}
-                              style={styles.favoriteIcon}
-                            />
-                          </TouchableOpacity>
-                        </View>
-                        <View style={styles.imageInfoOuterContainer}>
-                          <View style={styles.imageInfoInnerContainer}>
-                            <View style={styles.infoContainerRow}>
-                              <View>
-                                <Text style={styles.itemName}>{item.name}</Text>
-                                <Text style={styles.itemCategory}>
-                                  {item.category}
-                                </Text>
-                                <Text style={styles.priceText}>
-                                  ₱
-                                  <Text style={styles.price}>{item.price}</Text>
-                                </Text>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("DetailsFavorites", { item: item })
+                    }
+                  >
+                    <View style={styles.cardContainer}>
+                      <View>
+                        <ImageBackground
+                          source={item.image}
+                          style={styles.itemBackgroundImage}
+                        >
+                          <View style={styles.imageHeaderBarContainer}>
+                            <TouchableOpacity
+                              onPress={() => handleRemoveFromFavorites(item)}
+                            >
+                              <Ionicons
+                                name={"heart"}
+                                size={width * 0.07}
+                                color={colors.orange}
+                                backgroundColor={colors.blackrgba}
+                                style={styles.favoriteIcon}
+                              />
+                            </TouchableOpacity>
+                          </View>
+                          <View style={styles.imageInfoOuterContainer}>
+                            <View style={styles.imageInfoInnerContainer}>
+                              <View style={styles.infoContainerRow}>
+                                <View>
+                                  <Text style={styles.itemName}>
+                                    {item.name}
+                                  </Text>
+                                  <Text style={styles.itemCategory}>
+                                    {item.category}
+                                  </Text>
+                                  <Text style={styles.priceText}>
+                                    ₱
+                                    <Text style={styles.price}>
+                                      {item.price}
+                                    </Text>
+                                  </Text>
+                                </View>
                               </View>
                             </View>
                           </View>
-                        </View>
-                      </ImageBackground>
+                        </ImageBackground>
+                      </View>
+                      <View style={styles.descriptionContainer}>
+                        <Text style={styles.descriptionTitle}>
+                          Description:
+                        </Text>
+                        <Text style={styles.descriptionText}>
+                          {item.description}
+                        </Text>
+                      </View>
                     </View>
-                    <View style={styles.descriptionContainer}>
-                      <Text style={styles.descriptionTitle}>Description:</Text>
-                      <Text style={styles.descriptionText}>
-                        {item.description}
-                      </Text>
-                    </View>
-                  </View>
+                  </TouchableOpacity>
                 </View>
               </View>
             ))}

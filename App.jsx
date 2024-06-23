@@ -15,6 +15,7 @@ import { CartProvider } from "./src/provider/cartprovider";
 import Toast from "react-native-toast-message";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { FavoritesProvider } from "./src/provider/favoritesprovider";
+import DetailsFavorites from "./src/screen/DetailsFavorites";
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +34,10 @@ const App = () => {
               <Stack.Screen name="Home" component={Home} />
               <Stack.Screen name="Details" component={Details} />
               <Stack.Screen name="TabBar" component={TabBar} />
+              <Stack.Screen
+                name="DetailsFavorites"
+                component={DetailsFavorites}
+              />
             </Stack.Navigator>
           </NavigationContainer>
           <Toast ref={(ref) => Toast.setRef(ref)} />
