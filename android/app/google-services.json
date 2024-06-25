@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "663802386701",
+    "project_id": "mardobs-ced65",
+    "storage_bucket": "mardobs-ced65.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663802386701:android:0f41850553e405c3b2f844",
+        "android_client_info": {
+          "package_name": "com.mardobs"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDMcTItXYvQJ6pF207cFrGK3kL8wceuzI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
