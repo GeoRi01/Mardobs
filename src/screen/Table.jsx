@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,43 +7,77 @@ import {
   TouchableOpacity,
   FlatList,
   Image,
+  ActivityIndicator,
 } from "react-native";
-import React from "react";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+} from "@react-native-firebase/firestore";
 import Octicons from "react-native-vector-icons/Octicons";
 import { fonts } from "../utils/font";
 import { colors } from "../utils/colors";
-import { tableList } from "../utils/tablesList";
 import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
-/* Navigation */
+
 const Table = () => {
   const navigation = useNavigation();
+  const [tables, setTables] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTables = async () => {
+      const db = getFirestore();
+      const tableRef = collection(db, "tableList");
+
+      try {
+        const querySnapshot = await getDocs(tableRef);
+        const tableData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setTables(tableData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching tables: ", error);
+        setLoading(false);
+      }
+    };
+
+    fetchTables();
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={colors.primary} />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerText}>Hi, User#5473</Text>
         <TouchableOpacity>
           <Octicons name={"person"} size={width * 0.07} color={colors.orange} />
         </TouchableOpacity>
       </View>
-      {/* Sub Header */}
+
       <View style={styles.subContainer}>
         <Text style={styles.subText}>Tables</Text>
       </View>
-      {/* List */}
+
       <View style={styles.tableContainer}>
         <FlatList
-          data={tableList}
+          data={tables}
           renderItem={({ item }) => (
             <TouchableOpacity
               style={styles.tableCard}
-              /* Value Passing */
               onPress={() => navigation.navigate("TabBar", { table: item })}
             >
-              <Image source={item.image} style={styles.tableImage} />
+              <Image source={{ uri: item.image }} style={styles.tableImage} />
               <Text style={styles.tableText}>{item.name}</Text>
             </TouchableOpacity>
           )}
@@ -108,5 +143,11 @@ const styles = StyleSheet.create({
     fontSize: width * 0.035,
     fontFamily: fonts.Medium,
     color: colors.primary,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: colors.white,
   },
 });
