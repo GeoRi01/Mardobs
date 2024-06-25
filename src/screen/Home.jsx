@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,21 +9,22 @@ import {
   ScrollView,
   FlatList,
   Image,
+  RefreshControl,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+} from "@react-native-firebase/firestore";
 import Octicons from "react-native-vector-icons/Octicons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { colors } from "../utils/colors";
 import { fonts } from "../utils/font";
 import { useNavigation } from "@react-navigation/native";
-import { categoryList as originalCategoryList } from "../utils/categoryList";
-import { foodList } from "../utils/foodList";
 import { useCart } from "../provider/cartprovider";
 import Toast from "react-native-toast-message";
 
 const { width, height } = Dimensions.get("window");
-
-const categoryList = [{ category: "All" }, ...originalCategoryList];
 
 const Home = () => {
   const navigation = useNavigation();
@@ -32,15 +34,58 @@ const Home = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [filteredFoodList, setFilteredFoodList] = useState(foodList);
+  const [filteredFoodList, setFilteredFoodList] = useState([]);
+  const [allFoodItems, setAllFoodItems] = useState([]);
   const { addToCart } = useCart();
+  const [categoryList, setCategoryList] = useState([]);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const db = getFirestore();
+      const categoriesRef = collection(db, "categoryList");
+
+      try {
+        const querySnapshot = await getDocs(categoriesRef);
+        const fetchedCategories = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setCategoryList([{ category: "All" }, ...fetchedCategories]);
+      } catch (error) {
+        console.error("Error fetching categories: ", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    const fetchFoodItems = async () => {
+      const db = getFirestore();
+      const foodItemsRef = collection(db, "foodList");
+
+      try {
+        const querySnapshot = await getDocs(foodItemsRef);
+        const fetchedFoodItems = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setAllFoodItems(fetchedFoodItems);
+        setFilteredFoodList(fetchedFoodItems);
+      } catch (error) {
+        console.error("Error fetching food items: ", error);
+      }
+    };
+
+    fetchFoodItems();
+  }, []);
 
   useEffect(() => {
     filterFoodList();
   }, [searchQuery, selectedCategory]);
 
   const filterFoodList = () => {
-    let filteredList = foodList;
+    let filteredList = [...allFoodItems];
 
     if (searchQuery !== "") {
       filteredList = filteredList.filter((food) =>
@@ -74,9 +119,27 @@ const Home = () => {
     });
   };
 
+  const onRefresh = async () => {
+    setIsRefreshing(true);
+    try {
+      const db = getFirestore();
+      const foodItemsRef = collection(db, "foodList");
+      const querySnapshot = await getDocs(foodItemsRef);
+      const fetchedFoodItems = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setAllFoodItems(fetchedFoodItems);
+      setFilteredFoodList(fetchedFoodItems);
+    } catch (error) {
+      console.error("Error refreshing food items: ", error);
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
+
   return (
     <View style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.headerText} onPress={handleGoBack}>
           <Ionicons
@@ -89,7 +152,6 @@ const Home = () => {
           <Octicons name={"person"} size={width * 0.07} color={colors.orange} />
         </TouchableOpacity>
       </View>
-      {/* Search Box */}
       <View style={styles.searchBox}>
         <Ionicons name={"search"} size={width * 0.07} color={colors.orange} />
         <TextInput
@@ -99,7 +161,6 @@ const Home = () => {
           onChangeText={(text) => setSearchQuery(text)}
         />
       </View>
-      {/* Categories */}
       <View style={styles.categoryContainer}>
         <Text style={styles.categoryText}>Categories</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -133,7 +194,6 @@ const Home = () => {
           </View>
         </ScrollView>
       </View>
-      {/* Foods */}
       <View style={styles.foodContainer}>
         <Text style={styles.categoryText}>Food's</Text>
         <FlatList
@@ -143,7 +203,7 @@ const Home = () => {
               style={styles.foodCard}
               onPress={() => navigation.navigate("Details", { item: item })}
             >
-              <Image source={item.image} style={styles.foodImage} />
+              <Image source={{ uri: item.image }} style={styles.foodImage} />
               <Text style={styles.foodText}>{item.name}</Text>
               <View style={styles.foodCardFooter}>
                 <Text style={styles.foodCardFooterSign}>
@@ -166,6 +226,14 @@ const Home = () => {
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.flatListContent}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={onRefresh}
+              colors={[colors.orange]}
+              progressBackgroundColor={colors.white}
+            />
+          }
         />
       </View>
     </View>

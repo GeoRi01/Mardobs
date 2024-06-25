@@ -66,7 +66,10 @@ const Cart = () => {
                 <View key={item.id} style={styles.itemContainer}>
                   <View style={styles.itemContainerColor}>
                     <View style={styles.cartItemRow}>
-                      <Image source={item.image} style={styles.cartItemImage} />
+                      <Image
+                        source={{ uri: item.image }}
+                        style={styles.cartItemImage}
+                      />
                       <View style={styles.cartItemInfo}>
                         <View>
                           <Text style={styles.cartItemTitle}>{item.name}</Text>

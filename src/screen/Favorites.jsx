@@ -73,7 +73,7 @@ const Favorites = () => {
                     <View style={styles.cardContainer}>
                       <View>
                         <ImageBackground
-                          source={item.image}
+                          source={{ uri: item.image }}
                           style={styles.itemBackgroundImage}
                         >
                           <View style={styles.imageHeaderBarContainer}>
