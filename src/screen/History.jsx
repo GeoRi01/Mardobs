@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Dimensions } from "react-native";
+import { StyleSheet, Text, View, Dimensions, Image } from "react-native";
 import React from "react";
 import Octicons from "react-native-vector-icons/Octicons";
 import { colors } from "../utils/colors";
@@ -15,6 +15,13 @@ const History = () => {
         <TouchableOpacity>
           <Octicons name={"person"} size={width * 0.07} color={colors.orange} />
         </TouchableOpacity>
+      </View>
+      <View style={styles.emptyHistoryContainer}>
+        <Image
+          source={require("../assets/emptyh.png")}
+          style={styles.emptyHistoryImage}
+        />
+        <Text style={styles.emptyHistoryText}>Your order history is empty</Text>
       </View>
     </View>
   );
@@ -37,5 +44,21 @@ const styles = StyleSheet.create({
     fontSize: width * 0.05,
     fontFamily: fonts.SemiBold,
     color: colors.white,
+  },
+  emptyHistoryContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  emptyHistoryImage: {
+    width: width * 0.4,
+    height: height * 0.3,
+    resizeMode: "contain",
+  },
+  emptyHistoryText: {
+    fontSize: width * 0.04,
+    fontFamily: fonts.Medium,
+    color: colors.white,
+    marginTop: height * 0.02,
   },
 });

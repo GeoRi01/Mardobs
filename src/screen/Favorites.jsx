@@ -49,7 +49,7 @@ const Favorites = () => {
             source={require("../assets/emptyf.png")}
             style={styles.emptyFavoritesImage}
           />
-          <Text style={styles.emptyFavoritesText}>No favorites yet!</Text>
+          <Text style={styles.emptyFavoritesText}>Your favorites is empty</Text>
         </View>
       ) : (
         <ScrollView
