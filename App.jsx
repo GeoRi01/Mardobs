@@ -16,6 +16,7 @@ import Toast from "react-native-toast-message";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { FavoritesProvider } from "./src/provider/favoritesprovider";
 import DetailsFavorites from "./src/screen/DetailsFavorites";
+import Profile from "./src/screen/Profile";
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +35,7 @@ const App = () => {
               <Stack.Screen name="Home" component={Home} />
               <Stack.Screen name="Details" component={Details} />
               <Stack.Screen name="TabBar" component={TabBar} />
+              <Stack.Screen name="Profile" component={Profile} />
               <Stack.Screen
                 name="DetailsFavorites"
                 component={DetailsFavorites}

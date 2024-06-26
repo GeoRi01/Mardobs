@@ -16,7 +16,6 @@ import {
   collection,
   getDocs,
 } from "@react-native-firebase/firestore";
-import Octicons from "react-native-vector-icons/Octicons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { colors } from "../utils/colors";
 import { fonts } from "../utils/font";
@@ -148,8 +147,12 @@ const Home = () => {
             color={colors.gray}
           />
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Octicons name={"person"} size={width * 0.07} color={colors.orange} />
+        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+          <Ionicons
+            name={"person-circle-outline"}
+            size={width * 0.07}
+            color={colors.orange}
+          />
         </TouchableOpacity>
       </View>
       <View style={styles.searchBox}>

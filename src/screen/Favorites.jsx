@@ -7,7 +7,6 @@ import {
   Image,
 } from "react-native";
 import React from "react";
-import Octicons from "react-native-vector-icons/Octicons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { colors } from "../utils/colors";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
@@ -39,8 +38,12 @@ const Favorites = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Favorites</Text>
-        <TouchableOpacity>
-          <Octicons name={"person"} size={width * 0.07} color={colors.orange} />
+        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+          <Ionicons
+            name={"person-circle-outline"}
+            size={width * 0.07}
+            color={colors.orange}
+          />
         </TouchableOpacity>
       </View>
       {favorites.length === 0 ? (

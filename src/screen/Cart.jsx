@@ -15,10 +15,12 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import { colors } from "../utils/colors";
 import { fonts } from "../utils/font";
 import { useCart } from "../provider/cartprovider";
+import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
 
 const Cart = () => {
+  const navigation = useNavigation();
   const {
     cart,
     increaseQuantity,
@@ -40,8 +42,12 @@ const Cart = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Cart</Text>
-        <TouchableOpacity>
-          <Octicons name={"person"} size={width * 0.07} color={colors.orange} />
+        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+          <Ionicons
+            name={"person-circle-outline"}
+            size={width * 0.07}
+            color={colors.orange}
+          />
         </TouchableOpacity>
       </View>
       {cart.length === 0 ? (

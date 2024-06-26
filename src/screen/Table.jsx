@@ -14,7 +14,7 @@ import {
   collection,
   getDocs,
 } from "@react-native-firebase/firestore";
-import Octicons from "react-native-vector-icons/Octicons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { fonts } from "../utils/font";
 import { colors } from "../utils/colors";
 import { useNavigation } from "@react-navigation/native";
@@ -51,7 +51,7 @@ const Table = () => {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={colors.primary} />
+        <ActivityIndicator size="large" color={colors.orange} />
       </View>
     );
   }
@@ -60,8 +60,12 @@ const Table = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Hi, User#5473</Text>
-        <TouchableOpacity>
-          <Octicons name={"person"} size={width * 0.07} color={colors.orange} />
+        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+          <Ionicons
+            name={"person-circle-outline"}
+            size={width * 0.07}
+            color={colors.orange}
+          />
         </TouchableOpacity>
       </View>
 
