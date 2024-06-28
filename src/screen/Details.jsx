@@ -88,7 +88,7 @@ const Details = ({ route }) => {
       </View>
       <View style={styles.bgContainer}>
         <View style={styles.bgImageContainer}>
-          <Image source={{ uri: item.image }} style={styles.image} />
+          <Image source={item.image} style={styles.image} />
         </View>
         <Text style={styles.imageText}>{item.name}</Text>
         <Text style={styles.imageDescription}>{item.description}</Text>
