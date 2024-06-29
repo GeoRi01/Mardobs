@@ -40,7 +40,7 @@ const Cart = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Cart</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
           <Octicons name={"person"} size={width * 0.07} color={colors.orange} />
         </TouchableOpacity>
       </View>

@@ -85,7 +85,7 @@ const Home = () => {
             color={colors.gray}
           />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
           <Octicons name={"person"} size={width * 0.07} color={colors.orange} />
         </TouchableOpacity>
       </View>

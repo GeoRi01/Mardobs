@@ -12,7 +12,7 @@ const History = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Order History</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
           <Octicons name={"person"} size={width * 0.07} color={colors.orange} />
         </TouchableOpacity>
       </View>
