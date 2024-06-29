@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,20 +10,15 @@ import {
   FlatList,
   Image,
 } from "react-native";
-import React, { useEffect, useState } from "react";
-import Octicons from "react-native-vector-icons/Octicons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { colors } from "../utils/colors";
 import { fonts } from "../utils/font";
 import { useNavigation } from "@react-navigation/native";
-import { categoryList as originalCategoryList } from "../utils/categoryList";
-import { foodList } from "../utils/foodList";
 import { useCart } from "../provider/cartprovider";
+import axios from "axios";
 import Toast from "react-native-toast-message";
 
 const { width, height } = Dimensions.get("window");
-
-const categoryList = [{ category: "All" }, ...originalCategoryList];
 
 const Home = () => {
   const navigation = useNavigation();
@@ -32,15 +28,46 @@ const Home = () => {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [filteredFoodList, setFilteredFoodList] = useState(foodList);
+  const [filteredFoodList, setFilteredFoodList] = useState([]);
+  const [allFoodItems, setAllFoodItems] = useState([]);
   const { addToCart } = useCart();
+  const [categoryList, setCategoryList] = useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(
+          "http://192.168.100.117/mardobs/category_list.php"
+        );
+        setCategoryList([{ category: "All" }, ...response.data]);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    const fetchFoodList = async () => {
+      try {
+        const response = await axios.get(
+          "http://192.168.100.117/mardobs/food_list.php"
+        );
+        setAllFoodItems(response.data);
+        setFilteredFoodList(response.data);
+      } catch (error) {
+        console.error("Error fetching food list:", error);
+      }
+    };
+    fetchFoodList();
+  }, []);
 
   useEffect(() => {
     filterFoodList();
   }, [searchQuery, selectedCategory]);
 
   const filterFoodList = () => {
-    let filteredList = foodList;
+    let filteredList = [...allFoodItems];
 
     if (searchQuery !== "") {
       filteredList = filteredList.filter((food) =>
@@ -76,7 +103,6 @@ const Home = () => {
 
   return (
     <View style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity style={styles.headerText} onPress={handleGoBack}>
           <Ionicons
@@ -86,10 +112,13 @@ const Home = () => {
           />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-          <Octicons name={"person"} size={width * 0.07} color={colors.orange} />
+          <Ionicons
+            name={"person-circle-outline"}
+            size={width * 0.07}
+            color={colors.orange}
+          />
         </TouchableOpacity>
       </View>
-      {/* Search Box */}
       <View style={styles.searchBox}>
         <Ionicons name={"search"} size={width * 0.07} color={colors.orange} />
         <TextInput
@@ -99,7 +128,6 @@ const Home = () => {
           onChangeText={(text) => setSearchQuery(text)}
         />
       </View>
-      {/* Categories */}
       <View style={styles.categoryContainer}>
         <Text style={styles.categoryText}>Categories</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -133,7 +161,6 @@ const Home = () => {
           </View>
         </ScrollView>
       </View>
-      {/* Foods */}
       <View style={styles.foodContainer}>
         <Text style={styles.categoryText}>Food's</Text>
         <FlatList
@@ -143,7 +170,7 @@ const Home = () => {
               style={styles.foodCard}
               onPress={() => navigation.navigate("Details", { item: item })}
             >
-              <Image source={item.image} style={styles.foodImage} />
+              <Image source={{ uri: item.image }} style={styles.foodImage} />
               <Text style={styles.foodText}>{item.name}</Text>
               <View style={styles.foodCardFooter}>
                 <Text style={styles.foodCardFooterSign}>
@@ -162,7 +189,7 @@ const Home = () => {
             </TouchableOpacity>
           )}
           numColumns={2}
-          columnWrapperStyle={{ justifyContent: "space-between" }}
+          columnWrapperStyle={styles.columnWrapperStyle}
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.flatListContent}
@@ -246,6 +273,9 @@ const styles = StyleSheet.create({
     paddingBottom: height * 0.075,
     paddingHorizontal: width * 0.03,
   },
+  columnWrapperStyle: {
+    justifyContent: "space-between",
+  },
   foodCard: {
     backgroundColor: colors.white,
     shadowColor: "#000",
@@ -255,9 +285,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginVertical: height * 0.01,
     alignItems: "center",
-    paddingHorizontal: width * 0.008,
     paddingVertical: height * 0.02,
-    width: width * 0.45,
+    width: (width - 0.09 * width) / 2,
   },
   foodImage: {
     width: width * 0.4,
@@ -267,6 +296,7 @@ const styles = StyleSheet.create({
   },
   foodText: {
     marginTop: height * 0.01,
+    marginBottom: height * 0.01,
     fontSize: width * 0.035,
     fontFamily: fonts.Medium,
     color: colors.primary,
@@ -287,9 +317,9 @@ const styles = StyleSheet.create({
     color: colors.orange,
   },
   foodCardFooter: {
-    alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
     width: width * 0.4,
+    height: height * 0.035,
   },
 });

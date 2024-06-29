@@ -7,48 +7,65 @@ import {
   FlatList,
   Image,
 } from "react-native";
-import React from "react";
-import Octicons from "react-native-vector-icons/Octicons";
+import React, { useEffect, useState } from "react";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import axios from "axios";
 import { fonts } from "../utils/font";
 import { colors } from "../utils/colors";
-import { tableList } from "../utils/tablesList";
 import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
-/* Navigation */
+
 const Table = () => {
   const navigation = useNavigation();
+  const [tables, setTables] = useState([]);
+
+  useEffect(() => {
+    const fetchTables = async () => {
+      try {
+        const response = await axios.get(
+          "http://192.168.100.117/mardobs/table_list.php"
+        );
+        setTables(response.data);
+      } catch (error) {
+        console.error("Error fetching tables:", error);
+      }
+    };
+    fetchTables();
+  }, []);
 
   return (
     <View style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerText}>Hi, User#5473</Text>
         <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-          <Octicons name={"person"} size={width * 0.07} color={colors.orange} />
+          <Ionicons
+            name={"person-circle-outline"}
+            size={width * 0.07}
+            color={colors.orange}
+          />
         </TouchableOpacity>
       </View>
-      {/* Sub Header */}
       <View style={styles.subContainer}>
         <Text style={styles.subText}>Tables</Text>
       </View>
-      {/* List */}
       <View style={styles.tableContainer}>
         <FlatList
-          data={tableList}
+          data={tables}
           renderItem={({ item }) => (
             <TouchableOpacity
               style={styles.tableCard}
-              /* Value Passing */
               onPress={() => navigation.navigate("TabBar", { table: item })}
             >
-              <Image source={item.image} style={styles.tableImage} />
+              <Image source={{ uri: item.image }} style={styles.tableImage} />
               <Text style={styles.tableText}>{item.name}</Text>
             </TouchableOpacity>
           )}
           numColumns={2}
-          columnWrapperStyle={{ justifyContent: "space-evenly" }}
+          columnWrapperStyle={{ justifyContent: "space-between" }}
+          keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.flatListContent}
         />
       </View>
     </View>
@@ -66,24 +83,28 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginHorizontal: width * 0.03,
     marginTop: height * 0.005,
+    justifyContent: "space-between",
   },
   headerText: {
-    flex: 1,
-    fontSize: width * 0.045,
+    fontSize: width * 0.04,
     fontFamily: fonts.SemiBold,
     color: colors.white,
   },
   subContainer: {
-    marginTop: height * 0.01,
+    marginTop: height * 0.008,
   },
   subText: {
     marginHorizontal: width * 0.03,
-    fontSize: width * 0.045,
+    fontSize: width * 0.05,
     fontFamily: fonts.SemiBold,
     color: colors.white,
   },
   tableContainer: {
     flex: 1,
+  },
+  flatListContent: {
+    paddingBottom: height * 0.01,
+    paddingHorizontal: width * 0.03,
   },
   tableCard: {
     backgroundColor: colors.white,
@@ -102,6 +123,7 @@ const styles = StyleSheet.create({
     width: width * 0.4,
     height: height * 0.25,
     resizeMode: "center",
+    borderRadius: 20,
   },
   tableText: {
     marginTop: height * 0.01,

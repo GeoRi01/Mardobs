@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Dimensions, Image } from "react-native";
 import React from "react";
-import Octicons from "react-native-vector-icons/Octicons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { colors } from "../utils/colors";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { fonts } from "../utils/font";
@@ -13,7 +13,11 @@ const History = () => {
       <View style={styles.header}>
         <Text style={styles.headerText}>Order History</Text>
         <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-          <Octicons name={"person"} size={width * 0.07} color={colors.orange} />
+          <Ionicons
+            name={"person-circle-outline"}
+            size={width * 0.07}
+            color={colors.orange}
+          />
         </TouchableOpacity>
       </View>
       <View style={styles.emptyHistoryContainer}>
