@@ -50,8 +50,6 @@ const Login = () => {
         }
       );
 
-      console.log(response.data);
-
       if (response.data.status === "success") {
         storeUser(response.data.user);
         setEmail("");

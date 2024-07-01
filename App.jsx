@@ -18,6 +18,7 @@ import { FavoritesProvider } from "./src/provider/favoritesprovider";
 import DetailsFavorites from "./src/screen/DetailsFavorites";
 import Profile from "./src/screen/Profile";
 import { UserProvider } from "./src/provider/userprovider";
+import { TableProvider } from "./src/provider/tableprovider";
 
 const Stack = createNativeStackNavigator();
 
@@ -27,24 +28,26 @@ const App = () => {
       <CartProvider>
         <FavoritesProvider>
           <UserProvider>
-            <NavigationContainer>
-              <Stack.Navigator screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="Welcome" component={Welcome} />
-                <Stack.Screen name="Login" component={Login} />
-                <Stack.Screen name="Signup" component={Signup} />
-                <Stack.Screen name="Forgot" component={Forgot} />
-                <Stack.Screen name="Table" component={Table} />
-                <Stack.Screen name="Home" component={Home} />
-                <Stack.Screen name="Details" component={Details} />
-                <Stack.Screen name="TabBar" component={TabBar} />
-                <Stack.Screen name="Profile" component={Profile} />
-                <Stack.Screen
-                  name="DetailsFavorites"
-                  component={DetailsFavorites}
-                />
-              </Stack.Navigator>
-            </NavigationContainer>
-            <Toast ref={(ref) => Toast.setRef(ref)} />
+            <TableProvider>
+              <NavigationContainer>
+                <Stack.Navigator screenOptions={{ headerShown: false }}>
+                  <Stack.Screen name="Welcome" component={Welcome} />
+                  <Stack.Screen name="Login" component={Login} />
+                  <Stack.Screen name="Signup" component={Signup} />
+                  <Stack.Screen name="Forgot" component={Forgot} />
+                  <Stack.Screen name="Table" component={Table} />
+                  <Stack.Screen name="Home" component={Home} />
+                  <Stack.Screen name="Details" component={Details} />
+                  <Stack.Screen name="TabBar" component={TabBar} />
+                  <Stack.Screen name="Profile" component={Profile} />
+                  <Stack.Screen
+                    name="DetailsFavorites"
+                    component={DetailsFavorites}
+                  />
+                </Stack.Navigator>
+              </NavigationContainer>
+              <Toast ref={(ref) => Toast.setRef(ref)} />
+            </TableProvider>
           </UserProvider>
         </FavoritesProvider>
       </CartProvider>

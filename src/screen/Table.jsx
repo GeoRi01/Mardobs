@@ -14,6 +14,7 @@ import { fonts } from "../utils/font";
 import { colors } from "../utils/colors";
 import { useNavigation } from "@react-navigation/native";
 import { UserContext } from "../provider/userprovider";
+import { useTableContext } from "../provider/tableprovider";
 
 const { width, height } = Dimensions.get("window");
 
@@ -21,6 +22,7 @@ const Table = () => {
   const navigation = useNavigation();
   const { user } = useContext(UserContext);
   const [tables, setTables] = useState([]);
+  const { setSelectedTableData } = useTableContext();
 
   useEffect(() => {
     const fetchTables = async () => {
@@ -35,6 +37,11 @@ const Table = () => {
     };
     fetchTables();
   }, []);
+
+  const handleTablePress = (tableData) => {
+    setSelectedTableData(tableData);
+    navigation.navigate("TabBar");
+  };
 
   return (
     <View style={styles.container}>
@@ -57,7 +64,7 @@ const Table = () => {
           renderItem={({ item }) => (
             <TouchableOpacity
               style={styles.tableCard}
-              onPress={() => navigation.navigate("TabBar", { table: item })}
+              onPress={() => handleTablePress(item)}
             >
               <Image source={{ uri: item.image }} style={styles.tableImage} />
               <Text style={styles.tableText}>{item.name}</Text>

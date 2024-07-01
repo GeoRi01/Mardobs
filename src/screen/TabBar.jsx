@@ -8,30 +8,15 @@ import Home from "./Home";
 import Cart from "./Cart";
 import Favorites from "./Favorites";
 import History from "./History";
-import { useRoute } from "@react-navigation/native";
 import { colors } from "../utils/colors";
+import { useTableContext } from "../provider/tableprovider";
 
 const { width, height } = Dimensions.get("window");
 const Tab = createBottomTabNavigator();
 
 const TabBar = () => {
-  const route = useRoute();
-  const [table, setTable] = useState(null);
-
-  useEffect(() => {
-    const tableData = route.params?.table;
-    console.log("TabBar mounted with table: ", tableData);
-    setTable(tableData);
-  }, [route.params?.table]);
-
-  if (!table) {
-    return (
-      <View style={styles.container}>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
-
+  const { selectedTable } = useTableContext();
+  console.log(selectedTable.name);
   return (
     <Tab.Navigator
       screenOptions={{
