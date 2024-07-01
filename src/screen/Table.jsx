@@ -7,17 +7,19 @@ import {
   FlatList,
   Image,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import axios from "axios";
 import { fonts } from "../utils/font";
 import { colors } from "../utils/colors";
 import { useNavigation } from "@react-navigation/native";
+import { UserContext } from "../provider/userprovider";
 
 const { width, height } = Dimensions.get("window");
 
 const Table = () => {
   const navigation = useNavigation();
+  const { user } = useContext(UserContext);
   const [tables, setTables] = useState([]);
 
   useEffect(() => {
@@ -37,7 +39,7 @@ const Table = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Hi, User#5473</Text>
+        <Text style={styles.headerText}>Hi, {user.username}</Text>
         <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
           <Ionicons
             name={"person-circle-outline"}

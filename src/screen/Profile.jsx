@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -16,10 +16,12 @@ import { fonts } from "../utils/font";
 import { colors } from "../utils/colors";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
+import { UserContext } from "../provider/userprovider";
 
 const { width, height } = Dimensions.get("window");
 
 const Profile = () => {
+  const { user, clearUser } = useContext(UserContext);
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -60,8 +62,8 @@ const Profile = () => {
               style={styles.propic}
             />
           </View>
-          <Text style={styles.name}>Waiter</Text>
-          <Text style={styles.membership}>Employee</Text>
+          <Text style={styles.name}>{user.username}</Text>
+          <Text style={styles.membership}>{user.type}</Text>
         </View>
 
         <View style={styles.buttonList}>
@@ -143,6 +145,7 @@ const Profile = () => {
                   title="Logout"
                   color={colors.orange}
                   onPress={() => {
+                    clearUser();
                     navigation.navigate("Login");
                   }}
                 />

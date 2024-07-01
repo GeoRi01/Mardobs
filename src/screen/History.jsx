@@ -4,10 +4,12 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { colors } from "../utils/colors";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { fonts } from "../utils/font";
+import { useNavigation } from "@react-navigation/native";
 
 const { width, height } = Dimensions.get("window");
 
 const History = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.header}>

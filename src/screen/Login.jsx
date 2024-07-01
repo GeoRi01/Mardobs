@@ -5,20 +5,26 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
+  Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import { colors } from "../utils/colors";
 import { fonts } from "../utils/font";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import { UserContext } from "../provider/userprovider";
 
 const { width, height } = Dimensions.get("window");
 
-/* Navigation */
 const Login = () => {
   const navigation = useNavigation();
   const [secureEntry, setSecureEntry] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { storeUser } = useContext(UserContext);
+
   const handleGoBack = () => {
     navigation.goBack();
   };
@@ -28,12 +34,39 @@ const Login = () => {
   const handleForgot = () => {
     navigation.navigate("Forgot");
   };
-  const handleTable = () => {
-    navigation.navigate("Table");
+
+  const handleLogin = async () => {
+    if (email === "" || password === "") {
+      Alert.alert("Error", "Please fill in all fields");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://192.168.100.117/mardobs/user_authentication.php",
+        {
+          email,
+          password,
+        }
+      );
+
+      console.log(response.data);
+
+      if (response.data.status === "success") {
+        storeUser(response.data.user);
+        setEmail("");
+        setPassword("");
+        navigation.navigate("Table");
+      } else {
+        Alert.alert("Error", response.data.message);
+      }
+    } catch (error) {
+      Alert.alert("Error", "An error occurred. Please try again.");
+    }
   };
+
   return (
     <View style={styles.container}>
-      {/* Header */}
       <TouchableOpacity style={styles.backButtonWrapper} onPress={handleGoBack}>
         <Ionicons
           name={"arrow-back-outline"}
@@ -41,13 +74,11 @@ const Login = () => {
           size={width * 0.05}
         />
       </TouchableOpacity>
-      {/* Text */}
       <View style={styles.textContainer}>
         <Text style={styles.headingText}>Hello,</Text>
         <Text style={styles.headingText}>Welcome</Text>
         <Text style={styles.headingText}>Back</Text>
       </View>
-      {/* Input Box */}
       <View style={styles.formContainer}>
         <View style={styles.inputContainer}>
           <Ionicons
@@ -60,6 +91,8 @@ const Login = () => {
             placeholder="Enter your email"
             placeholderTextColor={colors.gray}
             keyboardType="email-address"
+            value={email}
+            onChangeText={setEmail}
           />
         </View>
         <View style={styles.inputContainer}>
@@ -73,31 +106,26 @@ const Login = () => {
             placeholder="Enter your password"
             placeholderTextColor={colors.gray}
             secureTextEntry={secureEntry}
+            value={password}
+            onChangeText={setPassword}
           />
-          <TouchableOpacity
-            onPress={() => {
-              setSecureEntry((prev) => !prev);
-            }}
-          >
+          <TouchableOpacity onPress={() => setSecureEntry((prev) => !prev)}>
             <SimpleLineIcons
               name={"eye"}
               color={colors.gray}
               size={width * 0.04}
             />
           </TouchableOpacity>
-          {/* Forgot Page */}
         </View>
         <TouchableOpacity onPress={handleForgot}>
           <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
         </TouchableOpacity>
-        {/* Button */}
         <TouchableOpacity
           style={styles.loginButtonWrapper}
-          onPress={handleTable}
+          onPress={handleLogin}
         >
           <Text style={styles.loginText}>Login</Text>
         </TouchableOpacity>
-        {/* Footer */}
         <View style={styles.footerContainer}>
           <Text style={styles.accountText}>Don't have an account?</Text>
           <TouchableOpacity onPress={handleSignup}>
