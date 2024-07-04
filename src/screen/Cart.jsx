@@ -131,8 +131,8 @@ const Cart = () => {
               ₱<Text style={styles.price}>{getTotalPrice().toFixed(2)}</Text>
             </Text>
           </View>
-          <TouchableOpacity style={styles.payButton}>
-            <Text style={styles.buttonText}>Pay</Text>
+          <TouchableOpacity style={styles.orderButton}>
+            <Text style={styles.buttonText}>Order</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
   price: {
     color: colors.white,
   },
-  payButton: {
+  orderButton: {
     backgroundColor: colors.orange,
     flex: 1,
     alignItems: "center",
