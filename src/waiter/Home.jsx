@@ -221,7 +221,6 @@ const styles = StyleSheet.create({
     marginHorizontal: width * 0.03,
     backgroundColor: "#fff",
     flexDirection: "row",
-    paddingVertical: height * 0.016,
     borderRadius: 20,
     paddingHorizontal: width * 0.03,
     marginVertical: height * 0.016,
@@ -229,6 +228,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 7,
+    alignItems: "center",
   },
   searchText: {
     paddingLeft: width * 0.008,
