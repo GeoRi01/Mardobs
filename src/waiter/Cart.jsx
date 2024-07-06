@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,8 +7,9 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
+  Alert,
+  Modal,
 } from "react-native";
-import React from "react";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import Octicons from "react-native-vector-icons/Octicons";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -27,7 +29,10 @@ const Cart = () => {
     decreaseQuantity,
     getTotalPrice,
     removeItem,
+    clearCart,
   } = useCart();
+
+  const [showModal, setShowModal] = useState(false);
 
   const renderRightActions = (itemId) => (
     <TouchableOpacity
@@ -37,6 +42,54 @@ const Cart = () => {
       <Octicons name="trash" size={width * 0.05} color={colors.white} />
     </TouchableOpacity>
   );
+
+  const handleOrder = () => {
+    setShowModal(true);
+  };
+
+  const confirmOrder = async () => {
+    const orderData = {
+      products: cart.map((item) => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        category: item.category,
+        description: item.description,
+        image: item.image,
+        quantity: item.quantity,
+      })),
+      totalAmount: getTotalPrice(),
+    };
+
+    try {
+      const response = await fetch(
+        "http://192.168.100.117/mardobs/order_list.php",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderData),
+        }
+      );
+
+      const result = await response.json();
+
+      if (result.status === "success") {
+        Alert.alert("Order placed successfully!");
+        setShowModal(false);
+        clearCart();
+      } else {
+        Alert.alert("Order failed", result.message);
+      }
+    } catch (error) {
+      Alert.alert("Error", "An error occurred while placing the order");
+    }
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
 
   return (
     <View style={styles.container}>
@@ -131,11 +184,43 @@ const Cart = () => {
               ₱<Text style={styles.price}>{getTotalPrice().toFixed(2)}</Text>
             </Text>
           </View>
-          <TouchableOpacity style={styles.orderButton}>
+          <TouchableOpacity style={styles.orderButton} onPress={handleOrder}>
             <Text style={styles.buttonText}>Order</Text>
           </TouchableOpacity>
         </View>
       )}
+      <Modal
+        visible={showModal}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={closeModal}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Confirm Order</Text>
+            <Text style={styles.modalText}>
+              Are you sure you want to place this order?
+            </Text>
+            <View style={styles.modalButtons}>
+              <TouchableOpacity
+                style={[
+                  styles.modalButton,
+                  { backgroundColor: colors.primary },
+                ]}
+                onPress={confirmOrder}
+              >
+                <Text style={styles.modalButtonText}>Confirm</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.modalButton, { backgroundColor: colors.red }]}
+                onPress={closeModal}
+              >
+                <Text style={styles.modalButtonText}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -296,5 +381,47 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Medium,
     color: colors.white,
     marginTop: height * 0.02,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    backgroundColor: colors.white,
+    padding: width * 0.06,
+    borderRadius: 20,
+    alignItems: "center",
+    elevation: 5,
+  },
+  modalTitle: {
+    fontFamily: fonts.Bold,
+    fontSize: width * 0.05,
+    color: colors.primary,
+    marginBottom: height * 0.02,
+  },
+  modalText: {
+    fontFamily: fonts.Regular,
+    fontSize: width * 0.04,
+    color: colors.dark1,
+    textAlign: "center",
+    marginBottom: height * 0.03,
+  },
+  modalButtons: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
+  },
+  modalButton: {
+    paddingVertical: height * 0.015,
+    paddingHorizontal: width * 0.1,
+    borderRadius: 10,
+  },
+  modalButtonText: {
+    fontFamily: fonts.SemiBold,
+    fontSize: width * 0.035,
+    color: colors.white,
+    textAlign: "center",
   },
 });
