@@ -18,6 +18,7 @@ import { colors } from "../utils/colors";
 import { fonts } from "../utils/font";
 import { useCart } from "../provider/cartprovider";
 import { useNavigation } from "@react-navigation/native";
+import { useTableContext } from "../provider/tableprovider";
 
 const { width, height } = Dimensions.get("window");
 
@@ -31,7 +32,7 @@ const Cart = () => {
     removeItem,
     clearCart,
   } = useCart();
-
+  const { selectedTable } = useTableContext();
   const [showModal, setShowModal] = useState(false);
 
   const renderRightActions = (itemId) => (
@@ -59,6 +60,7 @@ const Cart = () => {
         quantity: item.quantity,
       })),
       totalAmount: getTotalPrice(),
+      tableName: selectedTable.name,
     };
 
     try {
