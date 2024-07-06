@@ -7,7 +7,6 @@ import {
   Image,
   Modal,
   Button,
-  TouchableWithoutFeedback,
   StatusBar,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -129,35 +128,29 @@ const Profile = () => {
       </SafeAreaView>
 
       <Modal
+        visible={modalVisible}
         animationType="slide"
         transparent={true}
-        visible={modalVisible}
         onRequestClose={closeModal}
       >
-        <TouchableWithoutFeedback onPress={closeModal}>
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <Text style={styles.modalText}>
-                Are you sure you want to logout?
-              </Text>
-              <View style={styles.modalButtons}>
-                <Button
-                  title="Logout"
-                  color={colors.orange}
-                  onPress={() => {
-                    clearUser();
-                    navigation.navigate("Login");
-                  }}
-                />
-                <Button
-                  title="Cancel"
-                  onPress={closeModal}
-                  color={colors.gray}
-                />
-              </View>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>
+              Are you sure you want to logout?
+            </Text>
+            <View style={styles.modalButtons}>
+              <Button
+                title="Confirm"
+                color={colors.primary}
+                onPress={() => {
+                  clearUser();
+                  navigation.navigate("Login");
+                }}
+              />
+              <Button title="Cancel" onPress={closeModal} color={colors.gray} />
             </View>
           </View>
-        </TouchableWithoutFeedback>
+        </View>
       </Modal>
     </View>
   );
@@ -254,28 +247,28 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    backgroundColor: colors.white,
     padding: 20,
-    borderRadius: 10,
-    width: width * 0.8,
+    width: width * 0.9,
+    backgroundColor: colors.white,
+    borderRadius: 20,
     alignItems: "center",
+    elevation: 5,
   },
   modalText: {
-    fontSize: width * 0.05,
-    marginBottom: height * 0.02,
+    fontFamily: fonts.Regular,
+    fontSize: width * 0.04,
+    color: colors.dark1,
     textAlign: "center",
-    fontFamily: fonts.SemiBold,
-    color: colors.primary,
+    marginBottom: height * 0.03,
   },
   modalButtons: {
     flexDirection: "row",
     justifyContent: "space-around",
     width: "100%",
-    marginTop: 20,
   },
 });
