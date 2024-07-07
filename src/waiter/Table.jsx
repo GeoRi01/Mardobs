@@ -28,7 +28,7 @@ const Table = () => {
     const fetchTables = async () => {
       try {
         const response = await axios.get(
-          "http://192.168.100.117/mardobs/table_list.php"
+          "http://192.168.100.117/mardobs/table_fetch.php"
         );
         setTables(response.data);
       } catch (error) {

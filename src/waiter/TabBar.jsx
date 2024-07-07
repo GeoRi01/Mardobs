@@ -9,14 +9,11 @@ import Cart from "./Cart";
 import Favorites from "./Favorites";
 import History from "./History";
 import { colors } from "../utils/colors";
-import { useTableContext } from "../provider/tableprovider";
 
 const { width, height } = Dimensions.get("window");
 const Tab = createBottomTabNavigator();
 
 const TabBar = () => {
-  const { selectedTable } = useTableContext();
-  console.log(selectedTable.name);
   return (
     <Tab.Navigator
       screenOptions={{

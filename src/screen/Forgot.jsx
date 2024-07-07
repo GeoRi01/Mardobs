@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import { colors } from "../utils/colors";
 import { fonts } from "../utils/font";
 import { useNavigation } from "@react-navigation/native";

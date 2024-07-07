@@ -43,7 +43,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://192.168.100.117/mardobs/user_authentication.php",
+        "http://192.168.100.117/mardobs/user_fetch.php",
         {
           email,
           password,

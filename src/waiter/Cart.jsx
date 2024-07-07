@@ -66,7 +66,7 @@ const Cart = () => {
 
     try {
       const response = await fetch(
-        "http://192.168.100.117/mardobs/order_list.php",
+        "http://192.168.100.117/mardobs/order_insert.php",
         {
           method: "POST",
           headers: {
