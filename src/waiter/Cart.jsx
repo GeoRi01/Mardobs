@@ -61,6 +61,7 @@ const Cart = () => {
       })),
       totalAmount: getTotalPrice(),
       tableName: selectedTable.name,
+      orderStatus: "Pending",
     };
 
     try {
