@@ -6,7 +6,8 @@ import {
   Dimensions,
   ScrollView,
   TouchableOpacity,
-  ActivityIndicator,
+  Image,
+  RefreshControl,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { colors } from "../utils/colors";
@@ -18,7 +19,7 @@ const { width, height } = Dimensions.get("window");
 
 const History = () => {
   const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -29,22 +30,19 @@ const History = () => {
     try {
       const response = await axios.get(
         "http://192.168.100.117/mardobs/order_fetch.php"
-      ); // Replace with your actual URL
+      );
       setOrders(response.data);
     } catch (error) {
       console.error("Error fetching orders: ", error);
     } finally {
-      setLoading(false);
+      setRefreshing(false);
     }
   };
 
-  if (loading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color={colors.orange} />
-      </View>
-    );
-  }
+  const onRefresh = () => {
+    setRefreshing(true);
+    fetchOrders();
+  };
 
   return (
     <View style={styles.container}>
@@ -58,25 +56,50 @@ const History = () => {
           />
         </TouchableOpacity>
       </View>
-      <ScrollView contentContainerStyle={styles.scrollView}>
-        {orders.map((order) => (
-          <View key={order.id} style={styles.orderContainer}>
-            <View style={styles.orderRowView}>
-              <Text style={styles.orderId}>ID: #{order.order_id}</Text>
-              <Text style={styles.orderDate}>{order.order_date}</Text>
-            </View>
-            <Text style={styles.orderTableName}>{order.table_name}</Text>
-            <Text style={styles.orderQuantity}>Items: ({order.quantity})</Text>
-            <View style={styles.orderRowView}>
-              <Text style={styles.orderTotal}>
-                Total: ₱{order.total_amount}
-              </Text>
-              <TouchableOpacity>
-                <Text style={styles.orderStatus}>View</Text>
-              </TouchableOpacity>
-            </View>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollView}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        {orders.length === 0 ? (
+          <View style={styles.emptyHistoryContainer}>
+            <Image
+              source={require("../assets/emptyh.png")}
+              style={styles.emptyHistoryImage}
+            />
+            <Text style={styles.emptyHistoryText}>
+              Your order history is empty
+            </Text>
           </View>
-        ))}
+        ) : (
+          orders.map((order) => (
+            <View key={order.order_id} style={styles.orderContainer}>
+              <View style={styles.orderRowView}>
+                <Text style={styles.orderId}>ID: #{order.order_id}</Text>
+                <Text style={styles.orderDate}>{order.order_date}</Text>
+              </View>
+              <Text style={styles.orderTableName}>{order.table_name}</Text>
+              <Text style={styles.orderQuantity}>
+                Items: ({order.quantity})
+              </Text>
+              <View style={styles.orderRowView}>
+                <Text style={styles.orderTotalText}>
+                  Total: <Text style={styles.orderTotal}>₱</Text>
+                  <Text style={styles.orderTotalText}>
+                    {order.total_amount}
+                  </Text>
+                </Text>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("OrderDetails", { order })}
+                >
+                  <Text style={styles.orderStatus}>View</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          ))
+        )}
       </ScrollView>
     </View>
   );
@@ -129,6 +152,11 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Regular,
     color: colors.dark,
   },
+  orderTotalText: {
+    fontSize: width * 0.035,
+    fontFamily: fonts.SemiBold,
+    color: colors.primary,
+  },
   orderTotal: {
     fontSize: width * 0.035,
     fontFamily: fonts.SemiBold,
@@ -143,13 +171,23 @@ const styles = StyleSheet.create({
   },
   orderStatus: {
     fontSize: width * 0.035,
-    fontFamily: fonts.Regular,
+    fontFamily: fonts.SemiBold,
     color: colors.orange,
   },
-  loadingContainer: {
+  emptyHistoryContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: colors.primary,
+  },
+  emptyHistoryImage: {
+    width: width * 0.4,
+    height: height * 0.3,
+    resizeMode: "contain",
+  },
+  emptyHistoryText: {
+    fontSize: width * 0.04,
+    fontFamily: fonts.Medium,
+    color: colors.white,
+    marginTop: height * 0.02,
   },
 });
