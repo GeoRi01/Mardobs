@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     padding: width * 0.025,
     borderRadius: 25,
-    marginBottom: 25,
+    marginBottom: height * 0.025,
   },
   orderRowView: {
     flexDirection: "row",
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Regular,
     color: colors.gray2,
     fontStyle: "italic",
-    marginBottom: 10,
+    marginBottom: height * 0.01,
   },
   orderStatus: {
     fontSize: width * 0.035,
