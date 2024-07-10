@@ -23,9 +23,9 @@ const OrderDetails = () => {
     navigation.goBack();
   };
 
-  const orderItems = Array.isArray(order.order_items)
-    ? order.order_items
-    : JSON.parse(order.order_items);
+  const orderItems = Array.isArray(order.orders_items)
+    ? order.orders_items
+    : JSON.parse(order.orders_items);
 
   return (
     <View style={styles.container}>
@@ -44,28 +44,28 @@ const OrderDetails = () => {
       >
         <View style={styles.detailsContainer}>
           <View style={styles.orderRowView}>
-            <Text style={styles.textBold}>ID: {order.order_id}</Text>
-            <Text style={styles.text}>{order.order_date}</Text>
+            <Text style={styles.textBold}>ID: {order.orders_code}</Text>
+            <Text style={styles.text}>{order.orders_date}</Text>
           </View>
-          <Text style={styles.text}>{order.table_name}</Text>
+          <Text style={styles.text}>{order.orders_table}</Text>
           <View style={styles.sp}></View>
           <Text style={styles.textBold}>Items:</Text>
           {orderItems.map((item, index) => (
             <View key={index} style={styles.itemContainer}>
-              <Text style={styles.leftText}>{item.name}</Text>
+              <Text style={styles.leftText}>{item.item_name}</Text>
               <View style={styles.rightContainer}>
-                <Text style={styles.text}>{item.quantity}</Text>
+                <Text style={styles.text}>{item.item_quantity}</Text>
                 <Text style={styles.text}> x </Text>
-                <Text style={styles.text}>{item.price}</Text>
+                <Text style={styles.text}>{item.item_price}</Text>
                 <Text style={styles.text}> = </Text>
                 <Text style={styles.text}>
-                  ₱{parseFloat(item.quantity * item.price).toFixed(2)}
+                  ₱{parseFloat(item.item_quantity * item.item_price).toFixed(2)}
                 </Text>
               </View>
             </View>
           ))}
           <View style={styles.totalContainer}>
-            <Text style={styles.totalText}>Total: ₱{order.total_amount}</Text>
+            <Text style={styles.totalText}>Total: ₱{order.orders_total}</Text>
           </View>
         </View>
       </ScrollView>

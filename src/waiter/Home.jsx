@@ -39,7 +39,7 @@ const Home = () => {
         const response = await axios.get(
           "http://192.168.100.117/mardobs/category_fetch.php"
         );
-        setCategoryList([{ category: "All" }, ...response.data]);
+        setCategoryList([{ categories_name: "All" }, ...response.data]);
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
@@ -71,13 +71,13 @@ const Home = () => {
 
     if (searchQuery !== "") {
       filteredList = filteredList.filter((food) =>
-        food.name.toLowerCase().includes(searchQuery.toLowerCase())
+        food.products_name.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
     if (selectedCategory !== "All") {
       filteredList = filteredList.filter(
-        (food) => food.category === selectedCategory
+        (food) => food.products_category === selectedCategory
       );
     }
 
@@ -92,7 +92,7 @@ const Home = () => {
     addToCart(item);
     Toast.show({
       type: "success",
-      text1: `${item.name} added to cart!`,
+      text1: `${item.products_name} added to cart!`,
       position: "bottom",
       text1Style: {
         fontSize: width * 0.025,
@@ -133,7 +133,7 @@ const Home = () => {
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <View style={styles.categoryRow}>
             {categoryList.map((category, index) => {
-              const isSelected = selectedCategory === category.category;
+              const isSelected = selectedCategory === category.categories_name;
               return (
                 <TouchableOpacity
                   key={index}
@@ -145,7 +145,7 @@ const Home = () => {
                         : colors.white,
                     },
                   ]}
-                  onPress={() => handleCategoryPress(category.category)}
+                  onPress={() => handleCategoryPress(category.categories_name)}
                 >
                   <Text
                     style={[
@@ -153,7 +153,7 @@ const Home = () => {
                       { color: isSelected ? colors.white : colors.black },
                     ]}
                   >
-                    {category.category}
+                    {category.categories_name}
                   </Text>
                 </TouchableOpacity>
               );
@@ -170,11 +170,17 @@ const Home = () => {
               style={styles.foodCard}
               onPress={() => navigation.navigate("Details", { item: item })}
             >
-              <Image source={{ uri: item.image }} style={styles.foodImage} />
-              <Text style={styles.foodText}>{item.name}</Text>
+              <Image
+                source={{ uri: item.products_image }}
+                style={styles.foodImage}
+              />
+              <Text style={styles.foodText}>{item.products_name}</Text>
               <View style={styles.foodCardFooter}>
                 <Text style={styles.foodCardFooterSign}>
-                  ₱<Text style={styles.foodCardFooterText}>{item.price}</Text>
+                  ₱
+                  <Text style={styles.foodCardFooterText}>
+                    {item.products_price}
+                  </Text>
                 </Text>
                 <TouchableOpacity onPress={() => handleAddToCart(item)}>
                   <Ionicons

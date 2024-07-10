@@ -31,7 +31,7 @@ const Details = ({ route }) => {
     addToCart(item);
     const toastConfig = {
       type: "success",
-      text1: `${item.name} added to cart!`,
+      text1: `${item.products_name} added to cart!`,
       position: "bottom",
       text1Style: {
         fontSize: 18,
@@ -45,7 +45,7 @@ const Details = ({ route }) => {
       removeFromFavorites(item);
       const toastConfig = {
         type: "error",
-        text1: `${item.name} removed to favorites!`,
+        text1: `${item.products_name} removed to favorites!`,
         position: "bottom",
         text1Style: {
           fontSize: width * 0.025,
@@ -57,7 +57,7 @@ const Details = ({ route }) => {
       addToFavorites(item);
       const toastConfig = {
         type: "success",
-        text1: `${item.name} added to favorites!`,
+        text1: `${item.products_name} added to favorites!`,
         position: "bottom",
         text1Style: {
           fontSize: width * 0.025,
@@ -88,16 +88,16 @@ const Details = ({ route }) => {
       </View>
       <View style={styles.bgContainer}>
         <View style={styles.bgImageContainer}>
-          <Image source={{ uri: item.image }} style={styles.image} />
+          <Image source={{ uri: item.products_image }} style={styles.image} />
         </View>
-        <Text style={styles.imageText}>{item.name}</Text>
-        <Text style={styles.imageDescription}>{item.description}</Text>
+        <Text style={styles.imageText}>{item.products_name}</Text>
+        <Text style={styles.imageDescription}>{item.products_description}</Text>
       </View>
       <View style={styles.priceFooter}>
         <View style={styles.priceContainer}>
           <Text style={styles.priceTitle}>Price</Text>
           <Text style={styles.priceText}>
-            ₱<Text style={styles.price}>{item.price}</Text>
+            ₱<Text style={styles.price}>{item.products_price}</Text>
           </Text>
         </View>
         <TouchableOpacity

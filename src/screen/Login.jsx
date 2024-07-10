@@ -21,7 +21,7 @@ const { width, height } = Dimensions.get("window");
 const Login = () => {
   const navigation = useNavigation();
   const [secureEntry, setSecureEntry] = useState(true);
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { storeUser } = useContext(UserContext);
 
@@ -36,7 +36,7 @@ const Login = () => {
   };
 
   const handleLogin = async () => {
-    if (email === "" || password === "") {
+    if (username === "" || password === "") {
       Alert.alert("Error", "Please fill in all fields");
       return;
     }
@@ -45,14 +45,14 @@ const Login = () => {
       const response = await axios.post(
         "http://192.168.100.117/mardobs/user_fetch.php",
         {
-          email,
+          username,
           password,
         }
       );
 
       if (response.data.status === "success") {
         storeUser(response.data.user);
-        setEmail("");
+        setUsername("");
         setPassword("");
         navigation.navigate("Table");
       } else {
@@ -80,17 +80,16 @@ const Login = () => {
       <View style={styles.formContainer}>
         <View style={styles.inputContainer}>
           <Ionicons
-            name={"mail-outline"}
+            name={"person-outline"}
             color={colors.gray}
             size={width * 0.05}
           />
           <TextInput
             style={styles.textInput}
-            placeholder="Enter your email"
+            placeholder="Enter your username"
             placeholderTextColor={colors.gray}
-            keyboardType="email-address"
-            value={email}
-            onChangeText={setEmail}
+            value={username}
+            onChangeText={setUsername}
           />
         </View>
         <View style={styles.inputContainer}>

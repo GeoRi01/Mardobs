@@ -50,18 +50,18 @@ const Cart = () => {
 
   const confirmOrder = async () => {
     const orderData = {
-      products: cart.map((item) => ({
-        id: item.id,
-        name: item.name,
-        price: item.price,
-        category: item.category,
-        description: item.description,
-        image: item.image,
-        quantity: item.quantity,
+      tables_name: selectedTable.tables_name,
+      items: cart.map((item) => ({
+        item_id: item.products_id,
+        item_name: item.products_name,
+        item_price: item.products_price,
+        item_category: item.products_category,
+        item_description: item.products_description,
+        item_image: item.products_image,
+        item_quantity: item.quantity,
       })),
-      totalAmount: getTotalPrice(),
-      tableName: selectedTable.name,
-      orderStatus: "Pending",
+      items_total: getTotalPrice(),
+      orders_status: "Pending",
     };
 
     try {
@@ -122,30 +122,34 @@ const Cart = () => {
           <View style={styles.scrollViewInnerView}>
             {cart.map((item) => (
               <Swipeable
-                key={item.id}
-                renderRightActions={() => renderRightActions(item.id)}
+                key={item.products_id}
+                renderRightActions={() => renderRightActions(item.products_id)}
               >
-                <View key={item.id} style={styles.itemContainer}>
+                <View key={item.products_id} style={styles.itemContainer}>
                   <View style={styles.itemContainerColor}>
                     <View style={styles.cartItemRow}>
                       <Image
-                        source={{ uri: item.image }}
+                        source={{ uri: item.products_image }}
                         style={styles.cartItemImage}
                       />
                       <View style={styles.cartItemInfo}>
                         <View>
-                          <Text style={styles.cartItemTitle}>{item.name}</Text>
+                          <Text style={styles.cartItemTitle}>
+                            {item.products_name}
+                          </Text>
                           <Text style={styles.cartItemSubtitle}>
-                            {item.category}
+                            {item.products_category}
                           </Text>
                           <View style={styles.cartItemSingleQuantityContainer}>
                             <Text style={styles.cartPriceText}>
                               ₱
-                              <Text style={styles.cartPrice}>{item.price}</Text>
+                              <Text style={styles.cartPrice}>
+                                {item.products_price}
+                              </Text>
                             </Text>
                             <TouchableOpacity
                               style={styles.cartItemIcon}
-                              onPress={() => decreaseQuantity(item.id)}
+                              onPress={() => decreaseQuantity(item.products_id)}
                             >
                               <AntDesign
                                 name="minus"
@@ -160,7 +164,7 @@ const Cart = () => {
                             </View>
                             <TouchableOpacity
                               style={styles.cartItemIcon}
-                              onPress={() => increaseQuantity(item.id)}
+                              onPress={() => increaseQuantity(item.products_id)}
                             >
                               <Ionicons
                                 name="add"

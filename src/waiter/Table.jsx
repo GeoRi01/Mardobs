@@ -46,7 +46,7 @@ const Table = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Hi, {user.username}</Text>
+        <Text style={styles.headerText}>Hi, {user.accounts_name}</Text>
         <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
           <Ionicons
             name={"person-circle-outline"}
@@ -66,8 +66,11 @@ const Table = () => {
               style={styles.tableCard}
               onPress={() => handleTablePress(item)}
             >
-              <Image source={{ uri: item.image }} style={styles.tableImage} />
-              <Text style={styles.tableText}>{item.name}</Text>
+              <Image
+                source={{ uri: item.tables_image }}
+                style={styles.tableImage}
+              />
+              <Text style={styles.tableText}>{item.tables_name}</Text>
             </TouchableOpacity>
           )}
           numColumns={2}

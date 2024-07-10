@@ -75,20 +75,20 @@ const History = () => {
           </View>
         ) : (
           orders.map((order) => (
-            <View key={order.order_id} style={styles.orderContainer}>
+            <View key={order.orders_code} style={styles.orderContainer}>
               <View style={styles.orderRowView}>
-                <Text style={styles.orderId}>ID: #{order.order_id}</Text>
-                <Text style={styles.orderDate}>{order.order_date}</Text>
+                <Text style={styles.orderId}>ID: #{order.orders_code}</Text>
+                <Text style={styles.orderDate}>{order.orders_date}</Text>
               </View>
-              <Text style={styles.orderTableName}>{order.table_name}</Text>
+              <Text style={styles.orderTableName}>{order.orders_table}</Text>
               <Text style={styles.orderQuantity}>
-                Items: ({order.quantity})
+                Items: ({order.item_quantity})
               </Text>
               <View style={styles.orderRowView}>
                 <Text style={styles.orderTotalText}>
                   Total: <Text style={styles.orderTotal}>₱</Text>
                   <Text style={styles.orderTotalText}>
-                    {order.total_amount}
+                    {order.orders_total}
                   </Text>
                 </Text>
                 <TouchableOpacity

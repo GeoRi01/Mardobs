@@ -61,8 +61,8 @@ const Profile = () => {
               style={styles.propic}
             />
           </View>
-          <Text style={styles.name}>{user.username}</Text>
-          <Text style={styles.membership}>{user.type}</Text>
+          <Text style={styles.name}>{user.accounts_name}</Text>
+          <Text style={styles.membership}>{user.accounts_type}</Text>
         </View>
 
         <View style={styles.buttonList}>
