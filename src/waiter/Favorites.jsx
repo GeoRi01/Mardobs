@@ -25,7 +25,7 @@ const Favorites = () => {
     removeFromFavorites(item);
     Toast.show({
       type: "error",
-      text1: `${item.products_name} removed from favorites!`,
+      text1: `${item.prod_name} removed from favorites!`,
       position: "bottom",
       text1Style: {
         fontSize: width * 0.025,
@@ -66,7 +66,7 @@ const Favorites = () => {
             ]}
           >
             {favorites.map((item) => (
-              <View style={styles.itemContainer} key={item.products_id}>
+              <View style={styles.itemContainer} key={item.prod_id}>
                 <View style={styles.listItemContainer}>
                   <TouchableOpacity
                     onPress={() =>
@@ -76,7 +76,7 @@ const Favorites = () => {
                     <View style={styles.cardContainer}>
                       <View>
                         <ImageBackground
-                          source={{ uri: item.products_image }}
+                          source={{ uri: item.prod_image }}
                           style={styles.itemBackgroundImage}
                         >
                           <View style={styles.imageHeaderBarContainer}>
@@ -97,15 +97,15 @@ const Favorites = () => {
                               <View style={styles.infoContainerRow}>
                                 <View>
                                   <Text style={styles.itemName}>
-                                    {item.products_name}
+                                    {item.prod_name}
                                   </Text>
                                   <Text style={styles.itemCategory}>
-                                    {item.products_category}
+                                    {item.prod_category}
                                   </Text>
                                   <Text style={styles.priceText}>
                                     ₱
                                     <Text style={styles.price}>
-                                      {item.products_price}
+                                      {parseFloat(item.prod_price).toFixed(2)}
                                     </Text>
                                   </Text>
                                 </View>
@@ -119,7 +119,7 @@ const Favorites = () => {
                           Description:
                         </Text>
                         <Text style={styles.descriptionText}>
-                          {item.products_description}
+                          {item.prod_description}
                         </Text>
                       </View>
                     </View>

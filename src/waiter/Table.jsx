@@ -46,7 +46,7 @@ const Table = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Hi, {user.accounts_name}</Text>
+        <Text style={styles.headerText}>Hi, {user.account_name}</Text>
         <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
           <Ionicons
             name={"person-circle-outline"}

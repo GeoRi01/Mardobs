@@ -15,16 +15,12 @@ export const FavoritesProvider = ({ children }) => {
 
   const removeFromFavorites = (item) => {
     setFavorites((prevFavorites) =>
-      prevFavorites.filter(
-        (favorite) => favorite.products_id !== item.products_id
-      )
+      prevFavorites.filter((favorite) => favorite.prod_id !== item.prod_id)
     );
   };
 
   const isFavorite = (item) => {
-    return favorites.some(
-      (favorite) => favorite.products_id === item.products_id
-    );
+    return favorites.some((favorite) => favorite.prod_id === item.prod_id);
   };
 
   return (

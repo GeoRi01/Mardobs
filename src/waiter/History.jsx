@@ -88,7 +88,7 @@ const History = () => {
                 <Text style={styles.orderTotalText}>
                   Total: <Text style={styles.orderTotal}>₱</Text>
                   <Text style={styles.orderTotalText}>
-                    {order.orders_total}
+                    {parseFloat(order.orders_total).toFixed(2)}
                   </Text>
                 </Text>
                 <TouchableOpacity
