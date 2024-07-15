@@ -51,10 +51,18 @@ const Login = () => {
       );
 
       if (response.data.status === "success") {
-        storeUser(response.data.user);
+        const { user } = response.data;
+        storeUser(user);
         setUsername("");
         setPassword("");
-        navigation.navigate("Table");
+
+        if (user.account_type === "Waiter") {
+          navigation.navigate("Table");
+        } else if (user.account_type === "Chef") {
+          navigation.navigate("Kitchen");
+        } else {
+          Alert.alert("Error", "Unknown account type");
+        }
       } else {
         Alert.alert("Error", response.data.message);
       }
