@@ -21,6 +21,7 @@ import DetailsFavorites from "./src/waiter/DetailsFavorites";
 import OrderDetails from "./src/waiter/OrderDetails";
 import Kitchen from "./src/cook/Kitchen";
 import Profile from "./src/screen/Profile";
+import Preparing from "./src/cook/Preparing";
 
 const Stack = createNativeStackNavigator();
 
@@ -48,6 +49,7 @@ const App = () => {
                   />
                   <Stack.Screen name="OrderDetails" component={OrderDetails} />
                   <Stack.Screen name="Kitchen" component={Kitchen} />
+                  <Stack.Screen name="Preparing" component={Preparing} />
                 </Stack.Navigator>
               </NavigationContainer>
               <Toast ref={(ref) => Toast.setRef(ref)} />
