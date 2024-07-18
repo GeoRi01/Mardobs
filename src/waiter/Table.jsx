@@ -7,7 +7,7 @@ import {
   FlatList,
   Image,
 } from "react-native";
-import React, { useContext, useEffect, useState, useCallback } from "react";
+import React, { useContext, useState, useCallback } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import axios from "axios";
 import { fonts } from "../utils/font";
@@ -58,6 +58,11 @@ const Table = () => {
     navigation.navigate("TabBar");
   };
 
+  const handleEditPress = (tableData) => {
+    setSelectedTableData(tableData);
+    navigation.navigate("TabBar");
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -77,21 +82,35 @@ const Table = () => {
         <FlatList
           data={tables}
           renderItem={({ item }) => (
-            <TouchableOpacity
-              style={[
-                styles.tableCard,
-                unavailableTables.includes(item.tables_name) &&
-                  styles.tableCardUnavailable,
-              ]}
-              onPress={() => handleTablePress(item)}
-              disabled={unavailableTables.includes(item.tables_name)}
-            >
-              <Image
-                source={{ uri: item.tables_image }}
-                style={styles.tableImage}
-              />
-              <Text style={styles.tableText}>{item.tables_name}</Text>
-            </TouchableOpacity>
+            <View style={styles.tableCardContainer}>
+              <TouchableOpacity
+                style={[
+                  styles.tableCard,
+                  unavailableTables.includes(item.tables_name) &&
+                    styles.tableCardUnavailable,
+                ]}
+                onPress={() => handleTablePress(item)}
+                disabled={unavailableTables.includes(item.tables_name)}
+              >
+                <Image
+                  source={{ uri: item.tables_image }}
+                  style={styles.tableImage}
+                />
+                <Text style={styles.tableText}>{item.tables_name}</Text>
+              </TouchableOpacity>
+              {unavailableTables.includes(item.tables_name) && (
+                <TouchableOpacity
+                  style={styles.editButton}
+                  onPress={() => handleEditPress(item)}
+                >
+                  <Ionicons
+                    name={"create-outline"}
+                    size={width * 0.05}
+                    color={colors.primary}
+                  />
+                </TouchableOpacity>
+              )}
+            </View>
           )}
           numColumns={2}
           columnWrapperStyle={{ justifyContent: "space-between" }}
@@ -138,6 +157,11 @@ const styles = StyleSheet.create({
     paddingBottom: height * 0.01,
     paddingHorizontal: width * 0.03,
   },
+  tableCardContainer: {
+    position: "relative",
+    width: width * 0.45,
+    marginVertical: height * 0.01,
+  },
   tableCard: {
     backgroundColor: colors.white,
     shadowColor: "#000",
@@ -145,11 +169,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 7,
     borderRadius: 20,
-    marginVertical: height * 0.01,
     alignItems: "center",
     paddingHorizontal: width * 0.008,
     paddingVertical: height * 0.02,
-    width: width * 0.45,
   },
   tableCardUnavailable: {
     backgroundColor: colors.gray,
@@ -166,5 +188,13 @@ const styles = StyleSheet.create({
     fontSize: width * 0.035,
     fontFamily: fonts.Medium,
     color: colors.primary,
+  },
+  editButton: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    backgroundColor: colors.white,
+    borderRadius: 20,
+    padding: 5,
   },
 });

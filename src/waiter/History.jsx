@@ -9,7 +9,7 @@ import {
   Image,
   RefreshControl,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { colors } from "../utils/colors";
 import { fonts } from "../utils/font";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -21,10 +21,6 @@ const History = () => {
   const [orders, setOrders] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const navigation = useNavigation();
-
-  useEffect(() => {
-    fetchOrders();
-  }, []);
 
   const fetchOrders = async () => {
     try {
@@ -38,6 +34,12 @@ const History = () => {
       setRefreshing(false);
     }
   };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchOrders();
+    }, [])
+  );
 
   const onRefresh = () => {
     setRefreshing(true);
