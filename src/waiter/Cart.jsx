@@ -62,12 +62,11 @@ const Cart = () => {
         item_quantity: item.quantity,
       })),
       items_total: getTotalPrice(),
-      orders_status: "Pending",
     };
 
     try {
       const response = await fetch(
-        "http://192.168.100.117/mardobs/order_insert.php",
+        "http://192.168.100.117/mardobs/order_check.php",
         {
           method: "POST",
           headers: {
@@ -80,7 +79,7 @@ const Cart = () => {
       const result = await response.json();
 
       if (result.status === "success") {
-        Alert.alert("Order placed successfully!");
+        Alert.alert(result.message);
         setShowModal(false);
         clearCart();
       } else {
