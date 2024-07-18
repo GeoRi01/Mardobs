@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
   scrollView: {
     flexGrow: 1,
     marginHorizontal: width * 0.03,
+    paddingBottom: height * 0.07,
   },
   orderContainer: {
     backgroundColor: colors.white,

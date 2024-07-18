@@ -7,12 +7,12 @@ import {
   FlatList,
   Image,
 } from "react-native";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import axios from "axios";
 import { fonts } from "../utils/font";
 import { colors } from "../utils/colors";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { UserContext } from "../provider/userprovider";
 import { useTableContext } from "../provider/tableprovider";
 
@@ -22,21 +22,36 @@ const Table = () => {
   const navigation = useNavigation();
   const { user } = useContext(UserContext);
   const [tables, setTables] = useState([]);
+  const [unavailableTables, setUnavailableTables] = useState([]);
   const { setSelectedTableData } = useTableContext();
 
-  useEffect(() => {
-    const fetchTables = async () => {
-      try {
-        const response = await axios.get(
-          "http://192.168.100.117/mardobs/table_fetch.php"
-        );
-        setTables(response.data);
-      } catch (error) {
-        console.error("Error fetching tables:", error);
-      }
-    };
-    fetchTables();
-  }, []);
+  const fetchTablesAndOrders = async () => {
+    try {
+      const tableResponse = await axios.get(
+        "http://192.168.100.117/mardobs/table_fetch.php"
+      );
+      setTables(tableResponse.data);
+
+      const orderResponse = await axios.get(
+        "http://192.168.100.117/mardobs/order_status_fetch.php"
+      );
+      const activeOrders = orderResponse.data.filter(
+        (orders) => orders.orders_status !== "Completed"
+      );
+      const unavailableTables = activeOrders.map(
+        (orders) => orders.orders_table
+      );
+      setUnavailableTables(unavailableTables);
+    } catch (error) {
+      console.error("Error fetching tables or orders:", error);
+    }
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchTablesAndOrders();
+    }, [])
+  );
 
   const handleTablePress = (tableData) => {
     setSelectedTableData(tableData);
@@ -63,8 +78,13 @@ const Table = () => {
           data={tables}
           renderItem={({ item }) => (
             <TouchableOpacity
-              style={styles.tableCard}
+              style={[
+                styles.tableCard,
+                unavailableTables.includes(item.tables_name) &&
+                  styles.tableCardUnavailable,
+              ]}
               onPress={() => handleTablePress(item)}
+              disabled={unavailableTables.includes(item.tables_name)}
             >
               <Image
                 source={{ uri: item.tables_image }}
@@ -130,6 +150,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: width * 0.008,
     paddingVertical: height * 0.02,
     width: width * 0.45,
+  },
+  tableCardUnavailable: {
+    backgroundColor: colors.gray,
+    opacity: 0.5,
   },
   tableImage: {
     width: width * 0.4,
