@@ -32,11 +32,35 @@ const Preparing = () => {
     ? order.orders_items
     : JSON.parse(order.orders_items);
 
-  const toggleCheckbox = (index) => {
-    setCheckedItems((prev) => ({
-      ...prev,
-      [index]: !prev[index],
-    }));
+  const toggleCheckbox = async (index) => {
+    const item = filteredItems[index];
+    const newCheckedItems = { ...checkedItems, [index]: true }; // Always set to true
+
+    setCheckedItems(newCheckedItems);
+
+    if (!checkedItems[index]) {
+      // If the item was just checked
+      try {
+        const response = await axios.post(
+          "http://192.168.100.117/mardobs/item_update.php",
+          {
+            order_id: order.orders_id,
+            item_id: item.item_id,
+            status: "Completed",
+          }
+        );
+
+        console.log("Response data:", response.data); // Debug response
+
+        if (response.data.status === "success") {
+          console.log("Item status updated successfully");
+        } else {
+          console.error("Failed to update item status:", response.data.message);
+        }
+      } catch (error) {
+        console.error("Error updating item status:", error);
+      }
+    }
   };
 
   const handleServe = async () => {
@@ -62,9 +86,19 @@ const Preparing = () => {
     }
   };
 
+  const filteredItems = (orderItems || []).filter((item) => {
+    const matchesAccountType =
+      user.account_type === "Chef"
+        ? item.item_category === "Foods" || item.item_category === "Snacks"
+        : user.account_type === "Bartender"
+        ? item.item_category === "Drinks"
+        : true;
+    return matchesAccountType && item.item_status === "Pending";
+  });
+
   const allChecked =
-    orderItems.length > 0 &&
-    orderItems.every((_, index) => checkedItems[index]);
+    filteredItems.length > 0 &&
+    filteredItems.every((_, index) => checkedItems[index]);
 
   return (
     <View style={styles.container}>
@@ -89,24 +123,21 @@ const Preparing = () => {
           <Text style={styles.text}>{order.orders_table}</Text>
           <View style={styles.sp}></View>
           <Text style={styles.textBold}>Items:</Text>
-          {orderItems.map((item, index) => (
-            <View key={index} style={styles.itemContainer}>
-              <CheckBox
-                style={styles.checkbox}
-                onClick={() => toggleCheckbox(index)}
-                isChecked={checkedItems[index] || false}
-                leftText={`${item.item_name} (x${item.item_quantity})`}
-                leftTextStyle={styles.leftText}
-                disabled={
-                  (user.account_type === "Chef" &&
-                    item.item_category !== "Foods" &&
-                    item.item_category !== "Snacks") ||
-                  (user.account_type === "Bartender" &&
-                    item.item_category !== "Drinks")
-                }
-              />
-            </View>
-          ))}
+          {filteredItems.length > 0 ? (
+            filteredItems.map((item, index) => (
+              <View key={index} style={styles.itemContainer}>
+                <CheckBox
+                  style={styles.checkbox}
+                  onClick={() => toggleCheckbox(index)}
+                  isChecked={checkedItems[index] || false}
+                  leftText={`${item.item_name} (x${item.item_quantity})`}
+                  leftTextStyle={styles.leftText}
+                />
+              </View>
+            ))
+          ) : (
+            <Text style={styles.text}>No items to display.</Text>
+          )}
         </View>
       </ScrollView>
       <View style={styles.footer}>
@@ -121,6 +152,7 @@ const Preparing = () => {
     </View>
   );
 };
+
 export default Preparing;
 
 const styles = StyleSheet.create({

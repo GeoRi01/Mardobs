@@ -48,11 +48,17 @@ const Cart = () => {
     setShowModal(true);
   };
 
+  const generateUniqueId = (length = 16) => {
+    return Array.from({ length }, () =>
+      Math.floor(Math.random() * 16).toString(16)
+    ).join("");
+  };
+
   const confirmOrder = async () => {
     const orderData = {
       tables_name: selectedTable.tables_name,
       items: cart.map((item) => ({
-        item_id: item.prod_id,
+        item_id: generateUniqueId(),
         item_name: item.prod_name,
         item_category: item.prod_category,
         item_code: item.prod_code,
@@ -60,6 +66,7 @@ const Cart = () => {
         item_image: item.prod_image,
         item_description: item.prod_description,
         item_quantity: item.quantity,
+        item_status: "Pending",
       })),
       items_total: getTotalPrice(),
     };
