@@ -65,7 +65,28 @@ const Preparing = () => {
 
   const handleServe = async () => {
     try {
+      // Fetch the latest order items from the database
       const response = await axios.post(
+        "http://192.168.100.117/mardobs/item_check.php",
+        {
+          order_id: order.orders_id,
+        }
+      );
+
+      const latestItems = response.data.order_items;
+
+      // Check if all items are marked as "Completed"
+      const allItemsCompleted = latestItems.every(
+        (item) => item.item_status === "Completed"
+      );
+
+      if (!allItemsCompleted) {
+        navigation.goBack();
+        return; // Exit the function if not all items are completed
+      }
+
+      // Update the order status to "Served"
+      const updateResponse = await axios.post(
         "http://192.168.100.117/mardobs/order_update.php",
         {
           order_id: order.orders_id,
@@ -73,13 +94,16 @@ const Preparing = () => {
         }
       );
 
-      if (response.data.success) {
+      if (updateResponse.data.success) {
         if (onOrderUpdated) {
           onOrderUpdated(); // Refresh orders in Kitchen
         }
         navigation.goBack();
       } else {
-        console.error("Failed to update order status: ", response.data.message);
+        console.error(
+          "Failed to update order status: ",
+          updateResponse.data.message
+        );
       }
     } catch (error) {
       console.error("Error updating order status: ", error);
