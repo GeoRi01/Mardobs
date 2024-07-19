@@ -82,7 +82,6 @@ const Kitchen = () => {
   };
 
   const handleAction = (action, order) => {
-    // Close action menu first
     setActionMenuVisible((prev) => ({
       ...prev,
       [order.orders_id]: false,

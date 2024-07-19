@@ -34,12 +34,11 @@ const Preparing = () => {
 
   const toggleCheckbox = async (index) => {
     const item = filteredItems[index];
-    const newCheckedItems = { ...checkedItems, [index]: true }; // Always set to true
+    const newCheckedItems = { ...checkedItems, [index]: true };
 
     setCheckedItems(newCheckedItems);
 
     if (!checkedItems[index]) {
-      // If the item was just checked
       try {
         const response = await axios.post(
           "http://192.168.100.117/mardobs/item_update.php",
@@ -62,7 +61,6 @@ const Preparing = () => {
 
   const handleServe = async () => {
     try {
-      // Fetch the latest order items from the database
       const response = await axios.post(
         "http://192.168.100.117/mardobs/item_check.php",
         {
@@ -72,17 +70,15 @@ const Preparing = () => {
 
       const latestItems = response.data.order_items;
 
-      // Check if all items are marked as "Completed"
       const allItemsCompleted = latestItems.every(
         (item) => item.item_status === "Completed"
       );
 
       if (!allItemsCompleted) {
         navigation.goBack();
-        return; // Exit the function if not all items are completed
+        return;
       }
 
-      // Update the order status to "Served"
       const updateResponse = await axios.post(
         "http://192.168.100.117/mardobs/order_update.php",
         {
@@ -93,7 +89,7 @@ const Preparing = () => {
 
       if (updateResponse.data.success) {
         if (onOrderUpdated) {
-          onOrderUpdated(); // Refresh orders in Kitchen
+          onOrderUpdated();
         }
         navigation.goBack();
       } else {
