@@ -50,10 +50,7 @@ const Preparing = () => {
           }
         );
 
-        console.log("Response data:", response.data); // Debug response
-
         if (response.data.status === "success") {
-          console.log("Item status updated successfully");
         } else {
           console.error("Failed to update item status:", response.data.message);
         }
