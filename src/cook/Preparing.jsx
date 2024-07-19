@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Dimensions,
   StyleSheet,
@@ -13,6 +13,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { colors } from "../utils/colors";
 import { fonts } from "../utils/font";
 import axios from "axios";
+import { UserContext } from "../provider/userprovider";
 
 const { width, height } = Dimensions.get("window");
 
@@ -20,6 +21,7 @@ const Preparing = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const { order, onOrderUpdated } = route.params;
+  const { user } = useContext(UserContext);
   const [checkedItems, setCheckedItems] = useState({});
 
   const handleGoBack = () => {
@@ -93,8 +95,15 @@ const Preparing = () => {
                 style={styles.checkbox}
                 onClick={() => toggleCheckbox(index)}
                 isChecked={checkedItems[index] || false}
-                leftText={item.item_name}
+                leftText={`${item.item_name} (x${item.item_quantity})`}
                 leftTextStyle={styles.leftText}
+                disabled={
+                  (user.account_type === "Chef" &&
+                    item.item_category !== "Foods" &&
+                    item.item_category !== "Snacks") ||
+                  (user.account_type === "Bartender" &&
+                    item.item_category !== "Drinks")
+                }
               />
             </View>
           ))}
@@ -106,13 +115,12 @@ const Preparing = () => {
           onPress={allChecked ? handleServe : null}
           disabled={!allChecked}
         >
-          <Text style={styles.serveButtonText}>Serve</Text>
+          <Text style={styles.serveButtonText}>Done</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
-
 export default Preparing;
 
 const styles = StyleSheet.create({

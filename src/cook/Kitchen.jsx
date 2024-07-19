@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useContext } from "react";
 import {
   Dimensions,
   StyleSheet,
@@ -9,24 +9,22 @@ import {
   TouchableWithoutFeedback,
   RefreshControl,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Entypo from "react-native-vector-icons/Entypo";
 import { colors } from "../utils/colors";
 import { fonts } from "../utils/font";
 import axios from "axios";
+import { UserContext } from "../provider/userprovider";
 
 const { width, height } = Dimensions.get("window");
 
 const Kitchen = () => {
   const navigation = useNavigation();
+  const { user } = useContext(UserContext);
   const [orders, setOrders] = useState([]);
   const [actionMenuVisible, setActionMenuVisible] = useState({});
   const [refreshing, setRefreshing] = useState(false);
-
-  useEffect(() => {
-    fetchOrders();
-  }, []);
 
   const fetchOrders = async () => {
     try {
@@ -41,6 +39,12 @@ const Kitchen = () => {
       setRefreshing(false);
     }
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchOrders();
+    }, [])
+  );
 
   const handleDotsPress = (order) => {
     setActionMenuVisible((prev) => ({
@@ -67,7 +71,7 @@ const Kitchen = () => {
         fetchOrders();
         navigation.navigate("Preparing", {
           order,
-          onOrderUpdated: fetchOrders, // Pass the fetch function
+          onOrderUpdated: fetchOrders,
         });
       } else {
         console.error("Failed to update order status: ", response.data.message);
@@ -95,6 +99,17 @@ const Kitchen = () => {
     const fullDate = item.orders_date;
     const shortTime = fullDate.split(" ")[1].slice(0, 5);
 
+    const filteredItems = item.orders_items.filter((dish) => {
+      if (user.account_type === "Chef") {
+        return (
+          dish.item_category === "Foods" || dish.item_category === "Snacks"
+        );
+      } else if (user.account_type === "Bartender") {
+        return dish.item_category === "Drinks";
+      }
+      return false;
+    });
+
     return (
       <View style={styles.table}>
         <View style={styles.row}>
@@ -112,7 +127,7 @@ const Kitchen = () => {
           </TouchableOpacity>
         </View>
         <View style={styles.itemsContainer}>
-          {item.orders_items.slice(0, 3).map((dish, index) => (
+          {filteredItems.slice(0, 3).map((dish, index) => (
             <Text key={index} style={styles.item}>
               {dish.item_name} x{dish.item_quantity}
             </Text>
