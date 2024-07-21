@@ -6,6 +6,7 @@ import {
   View,
   Dimensions,
   Alert,
+  StatusBar,
 } from "react-native";
 import React, { useContext, useState } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -24,16 +25,6 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { storeUser } = useContext(UserContext);
-
-  const handleGoBack = () => {
-    navigation.goBack();
-  };
-  const handleSignup = () => {
-    navigation.navigate("Signup");
-  };
-  const handleForgot = () => {
-    navigation.navigate("Forgot");
-  };
 
   const handleLogin = async () => {
     if (username === "" || password === "") {
@@ -76,13 +67,7 @@ const Login = () => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.backButtonWrapper} onPress={handleGoBack}>
-        <Ionicons
-          name={"arrow-back-outline"}
-          color={colors.primary}
-          size={width * 0.05}
-        />
-      </TouchableOpacity>
+      <StatusBar hidden={true} />
       <View style={styles.textContainer}>
         <Text style={styles.headingText}>Hello,</Text>
         <Text style={styles.headingText}>Welcome</Text>
@@ -125,21 +110,12 @@ const Login = () => {
             />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={handleForgot}>
-          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-        </TouchableOpacity>
         <TouchableOpacity
           style={styles.loginButtonWrapper}
           onPress={handleLogin}
         >
           <Text style={styles.loginText}>Login</Text>
         </TouchableOpacity>
-        <View style={styles.footerContainer}>
-          <Text style={styles.accountText}>Don't have an account?</Text>
-          <TouchableOpacity onPress={handleSignup}>
-            <Text style={styles.signupText}>Sign up</Text>
-          </TouchableOpacity>
-        </View>
       </View>
     </View>
   );
@@ -169,7 +145,6 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontFamily: fonts.SemiBold,
   },
-  formContainer: {},
   inputContainer: {
     borderWidth: 1,
     borderColor: colors.gray,
@@ -187,16 +162,10 @@ const styles = StyleSheet.create({
     fontSize: width * 0.025,
     color: colors.gray,
   },
-  forgotPasswordText: {
-    textAlign: "right",
-    color: colors.gray,
-    fontSize: width * 0.025,
-    fontFamily: fonts.SemiBold,
-  },
   loginButtonWrapper: {
     backgroundColor: colors.white,
     borderRadius: 100,
-    marginTop: height * 0.25,
+    marginTop: height * 0.35,
     justifyContent: "center",
     alignItems: "center",
     height: height * 0.07,
@@ -205,23 +174,5 @@ const styles = StyleSheet.create({
     color: colors.primary,
     fontSize: width * 0.04,
     fontFamily: fonts.SemiBold,
-  },
-  footerContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginVertical: height * 0.02,
-    gap: width * 0.01,
-    marginTop: height * 0.02,
-  },
-  accountText: {
-    color: colors.white,
-    fontSize: width * 0.025,
-    fontFamily: fonts.Regular,
-  },
-  signupText: {
-    color: colors.white,
-    fontSize: width * 0.025,
-    fontFamily: fonts.Bold,
   },
 });
