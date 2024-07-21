@@ -5,6 +5,7 @@ import {
   View,
   Dimensions,
   TouchableOpacity,
+  StatusBar,
 } from "react-native";
 import React from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -41,6 +42,7 @@ const DetailsFavorites = ({ route }) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar hidden={true} />
       <View style={styles.header}>
         <TouchableOpacity style={styles.headerText} onPress={handleGoBack}>
           <Ionicons

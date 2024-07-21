@@ -5,6 +5,7 @@ import {
   Dimensions,
   ImageBackground,
   Image,
+  StatusBar,
 } from "react-native";
 import React from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -36,6 +37,7 @@ const Favorites = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar hidden={true} />
       <View style={styles.header}>
         <Text style={styles.headerText}>Favorites</Text>
         <TouchableOpacity onPress={() => navigation.navigate("Profile")}>

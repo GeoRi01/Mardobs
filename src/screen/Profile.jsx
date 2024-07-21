@@ -44,6 +44,7 @@ const Profile = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar hidden={true} />
       <View style={styles.header}>
         <TouchableOpacity style={styles.headerText} onPress={handleGoBack}>
           <Ionicons

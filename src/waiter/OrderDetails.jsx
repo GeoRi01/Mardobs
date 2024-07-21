@@ -6,6 +6,7 @@ import {
   Dimensions,
   ScrollView,
   TouchableOpacity,
+  StatusBar,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { colors } from "../utils/colors";
@@ -29,6 +30,7 @@ const OrderDetails = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar hidden={true} />
       <View style={styles.header}>
         <TouchableOpacity style={styles.headerText} onPress={handleGoBack}>
           <Ionicons

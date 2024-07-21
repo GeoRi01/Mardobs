@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Image,
   RefreshControl,
+  StatusBar,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { colors } from "../utils/colors";
@@ -48,6 +49,7 @@ const History = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar hidden={true} />
       <View style={styles.header}>
         <Text style={styles.headerText}>Order History</Text>
         <TouchableOpacity onPress={() => navigation.navigate("Profile")}>

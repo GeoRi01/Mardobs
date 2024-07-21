@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useContext } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import {
   Dimensions,
   StyleSheet,
@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   RefreshControl,
+  StatusBar,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -144,7 +145,6 @@ const Kitchen = () => {
             >
               <Text style={styles.actionText}>View Order</Text>
             </TouchableOpacity>
-            {/* Check if order status is not 'Served' before showing Prepare option */}
             {item.orders_status !== "Served" && (
               <TouchableOpacity
                 style={styles.actionItem}
@@ -162,8 +162,11 @@ const Kitchen = () => {
   return (
     <TouchableWithoutFeedback onPress={handleOutsidePress}>
       <View style={styles.container}>
+        <StatusBar hidden={true} />
         <View style={styles.header}>
-          <Text style={styles.headerText}>Kitchen</Text>
+          <Text style={styles.headerText}>
+            {user.account_type === "Chef" ? "Kitchen" : "Bar"}
+          </Text>
           <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
             <Ionicons
               name={"person-circle-outline"}

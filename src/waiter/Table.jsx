@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   FlatList,
   Image,
+  StatusBar,
 } from "react-native";
 import React, { useContext, useState, useCallback } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -65,6 +66,7 @@ const Table = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar hidden={true} />
       <View style={styles.header}>
         <Text style={styles.headerText}>Hi, {user.account_name}</Text>
         <TouchableOpacity onPress={() => navigation.navigate("Profile")}>

@@ -9,6 +9,7 @@ import {
   Image,
   Alert,
   Modal,
+  StatusBar,
 } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import Octicons from "react-native-vector-icons/Octicons";
@@ -103,6 +104,7 @@ const Cart = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar hidden={true} />
       <View style={styles.header}>
         <Text style={styles.headerText}>Cart</Text>
         <TouchableOpacity onPress={() => navigation.navigate("Profile")}>

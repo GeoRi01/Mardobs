@@ -6,6 +6,7 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  StatusBar,
 } from "react-native";
 import CheckBox from "react-native-check-box";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -119,6 +120,7 @@ const Preparing = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar hidden={true} />
       <View style={styles.header}>
         <TouchableOpacity style={styles.headerText} onPress={handleGoBack}>
           <Ionicons
