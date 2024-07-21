@@ -58,7 +58,10 @@ const Login = () => {
 
         if (user.account_type === "Waiter") {
           navigation.navigate("Table");
-        } else if (user.account_type === "Chef") {
+        } else if (
+          user.account_type === "Chef" ||
+          user.account_type === "Bartender"
+        ) {
           navigation.navigate("Kitchen");
         } else {
           Alert.alert("Error", "Unknown account type");
