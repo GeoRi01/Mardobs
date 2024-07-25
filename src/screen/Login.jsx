@@ -34,7 +34,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://192.168.100.117/mardobs/user_fetch.php",
+        "http://10.0.2.2/mardobs/user_fetch.php",
         {
           username,
           password,

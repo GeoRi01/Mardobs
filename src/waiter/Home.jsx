@@ -38,7 +38,7 @@ const Home = () => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          "http://192.168.100.117/mardobs/category_fetch.php"
+          "http://10.0.2.2/mardobs/category_fetch.php"
         );
         setCategoryList([{ category_name: "All" }, ...response.data]);
       } catch (error) {
@@ -52,7 +52,7 @@ const Home = () => {
     const fetchFoodList = async () => {
       try {
         const response = await axios.get(
-          "http://192.168.100.117/mardobs/food_fetch.php"
+          "http://10.0.2.2/mardobs/food_fetch.php"
         );
         setAllFoodItems(response.data);
         setFilteredFoodList(response.data);

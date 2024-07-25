@@ -29,12 +29,12 @@ const Table = () => {
   const fetchTablesAndOrders = async () => {
     try {
       const tableResponse = await axios.get(
-        "http://192.168.100.117/mardobs/table_fetch.php"
+        "http://10.0.2.2/mardobs/table_fetch.php"
       );
       setTables(tableResponse.data);
 
       const orderResponse = await axios.get(
-        "http://192.168.100.117/mardobs/order_status_fetch.php"
+        "http://10.0.2.2/mardobs/order_status_fetch.php"
       );
       const activeOrders = orderResponse.data.filter(
         (orders) => orders.orders_status !== "Completed"

@@ -31,7 +31,7 @@ const Kitchen = () => {
     try {
       setRefreshing(true);
       const response = await axios.get(
-        "http://192.168.100.117/mardobs/order_fetch.php"
+        "http://10.0.2.2/mardobs/order_fetch.php"
       );
       setOrders(response.data);
     } catch (error) {
@@ -61,7 +61,7 @@ const Kitchen = () => {
   const updateOrderStatus = async (order) => {
     try {
       const response = await axios.post(
-        "http://192.168.100.117/mardobs/order_update.php",
+        "http://10.0.2.2/mardobs/order_update.php",
         {
           order_id: order.orders_id,
           status: "Preparing",

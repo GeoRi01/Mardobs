@@ -73,16 +73,13 @@ const Cart = () => {
     };
 
     try {
-      const response = await fetch(
-        "http://192.168.100.117/mardobs/order_check.php",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(orderData),
-        }
-      );
+      const response = await fetch("http://10.0.2.2/mardobs/order_check.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderData),
+      });
 
       const result = await response.json();
 
