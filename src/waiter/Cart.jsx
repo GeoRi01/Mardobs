@@ -64,8 +64,6 @@ const Cart = () => {
         item_category: item.prod_category,
         item_code: item.prod_code,
         item_price: item.prod_price,
-        item_image: item.prod_image,
-        item_description: item.prod_description,
         item_quantity: item.quantity,
         item_status: "Pending",
       })),
