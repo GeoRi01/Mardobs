@@ -28,14 +28,13 @@ const Table = () => {
 
   const fetchTablesAndOrders = async () => {
     try {
-      const tableResponse = await axios.get(
-        "http://10.0.2.2/mardobs/table_fetch.php"
-      );
+      const [tableResponse, orderResponse] = await Promise.all([
+        axios.get("http://10.0.2.2/mardobs/table_fetch.php"),
+        axios.get("http://10.0.2.2/mardobs/order_status_fetch.php"),
+      ]);
+  
       setTables(tableResponse.data);
-
-      const orderResponse = await axios.get(
-        "http://10.0.2.2/mardobs/order_status_fetch.php"
-      );
+  
       const activeOrders = orderResponse.data.filter(
         (orders) => orders.orders_status !== "Completed"
       );
@@ -47,6 +46,7 @@ const Table = () => {
       console.error("Error fetching tables or orders:", error);
     }
   };
+  
 
   useFocusEffect(
     useCallback(() => {
