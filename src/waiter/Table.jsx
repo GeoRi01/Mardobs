@@ -46,7 +46,6 @@ const Table = () => {
       console.error("Error fetching tables or orders:", error);
     }
   };
-  
 
   useFocusEffect(
     useCallback(() => {
