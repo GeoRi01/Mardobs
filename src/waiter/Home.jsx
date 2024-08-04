@@ -14,7 +14,7 @@ import {
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { colors } from "../utils/colors";
 import { fonts } from "../utils/font";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { useCart } from "../provider/cartprovider";
 import axios from "axios";
 import Toast from "react-native-toast-message";
@@ -23,6 +23,7 @@ const { width, height } = Dimensions.get("window");
 
 const Home = () => {
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
   const handleGoBack = () => {
     navigation.goBack();
   };
@@ -33,6 +34,24 @@ const Home = () => {
   const [allFoodItems, setAllFoodItems] = useState([]);
   const { addToCart } = useCart();
   const [categoryList, setCategoryList] = useState([]);
+
+  const fetchFoodList = async () => {
+    try {
+      const response = await axios.get(
+        "http://10.0.2.2/mardobs/food_fetch.php"
+      );
+      setAllFoodItems(response.data);
+      setFilteredFoodList(response.data);
+    } catch (error) {
+      console.error("Error fetching food list:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (isFocused) {
+      fetchFoodList();
+    }
+  }, [isFocused]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -45,22 +64,8 @@ const Home = () => {
         console.error("Error fetching categories:", error);
       }
     };
-    fetchCategories();
-  }, []);
 
-  useEffect(() => {
-    const fetchFoodList = async () => {
-      try {
-        const response = await axios.get(
-          "http://10.0.2.2/mardobs/food_fetch.php"
-        );
-        setAllFoodItems(response.data);
-        setFilteredFoodList(response.data);
-      } catch (error) {
-        console.error("Error fetching food list:", error);
-      }
-    };
-    fetchFoodList();
+    fetchCategories();
   }, []);
 
   useEffect(() => {
