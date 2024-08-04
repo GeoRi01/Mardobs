@@ -90,16 +90,19 @@ const Home = () => {
   };
 
   const handleAddToCart = (item) => {
-    addToCart(item);
-    Toast.show({
-      type: "success",
-      text1: `${item.prod_name} added to cart!`,
-      position: "bottom",
-      text1Style: {
-        fontSize: width * 0.025,
-        fontFamily: fonts.SemiBold,
-      },
-    });
+    const itemAdded = addToCart(item);
+  
+    if (itemAdded) {
+      Toast.show({
+        type: "success",
+        text1: `${item.prod_name} added to cart!`,
+        position: "bottom",
+        text1Style: {
+          fontSize: width * 0.025,
+          fontFamily: fonts.SemiBold,
+        },
+      });
+    }
   };
 
   return (

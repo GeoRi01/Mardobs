@@ -29,17 +29,19 @@ const Details = ({ route }) => {
     navigation.goBack();
   };
   const handleAddToCart = (item) => {
-    addToCart(item);
-    const toastConfig = {
-      type: "success",
-      text1: `${item.prod_name} added to cart!`,
-      position: "bottom",
-      text1Style: {
-        fontSize: 18,
-        fontFamily: fonts.SemiBold,
-      },
-    };
-    Toast.show(toastConfig);
+    const itemAdded = addToCart(item);
+  
+    if (itemAdded) {
+      Toast.show({
+        type: "success",
+        text1: `${item.prod_name} added to cart!`,
+        position: "bottom",
+        text1Style: {
+          fontSize: width * 0.025,
+          fontFamily: fonts.SemiBold,
+        },
+      });
+    }
   };
   const handleToggleFavorite = () => {
     if (isFav) {
