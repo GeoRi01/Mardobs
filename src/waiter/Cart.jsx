@@ -69,24 +69,43 @@ const Cart = () => {
       })),
       items_total: getTotalPrice(),
     };
-
+  
     try {
-      const response = await fetch("http://10.0.2.2/mardobs/order_check.php", {
+      const orderResponse = await fetch("http://10.0.2.2/mardobs/order_check.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(orderData),
       });
-
-      const result = await response.json();
-
-      if (result.status === "success") {
-        Alert.alert(result.message);
-        setShowModal(false);
-        clearCart();
+  
+      const orderResult = await orderResponse.json();
+  
+      if (orderResult.status === "success") {
+        const stockUpdateData = cart.map((item) => ({
+          prod_id: item.prod_id,
+          quantity: item.quantity,
+        }));
+  
+        const stockResponse = await fetch("http://10.0.2.2/mardobs/stock_update.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(stockUpdateData),
+        });
+  
+        const stockResult = await stockResponse.json();
+  
+        if (stockResult.status === "success") {
+          Alert.alert("Success", "Order placed and stock updated!");
+          setShowModal(false);
+          clearCart();
+        } else {
+          Alert.alert("Stock Update Failed", stockResult.message);
+        }
       } else {
-        Alert.alert("Order failed", result.message);
+        Alert.alert("Order Failed", orderResult.message);
       }
     } catch (error) {
       Alert.alert("Error", "An error occurred while placing the order");
