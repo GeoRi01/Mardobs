@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   StyleSheet,
   Text,
@@ -18,6 +18,7 @@ import { useNavigation, useIsFocused } from "@react-navigation/native";
 import { useCart } from "../provider/cartprovider";
 import axios from "axios";
 import Toast from "react-native-toast-message";
+import { debounce } from "lodash";
 
 const { width, height } = Dimensions.get("window");
 
@@ -35,44 +36,29 @@ const Home = () => {
   const { addToCart } = useCart();
   const [categoryList, setCategoryList] = useState([]);
 
-  const fetchFoodList = async () => {
+  const fetchData = useCallback(async () => {
     try {
-      const response = await axios.get(
-        "http://10.0.2.2/mardobs/food_fetch.php"
-      );
-      setAllFoodItems(response.data);
-      setFilteredFoodList(response.data);
+      const [foodResponse, categoryResponse] = await Promise.all([
+        axios.get("http://10.0.2.2/mardobs/food_fetch.php"),
+        axios.get("http://10.0.2.2/mardobs/category_fetch.php"),
+      ]);
+
+      setAllFoodItems(foodResponse.data);
+      setFilteredFoodList(foodResponse.data);
+
+      setCategoryList([{ category_name: "All" }, ...categoryResponse.data]);
     } catch (error) {
-      console.error("Error fetching food list:", error);
+      console.error("Error fetching data:", error);
     }
-  };
-
-  useEffect(() => {
-    if (isFocused) {
-      fetchFoodList();
-    }
-  }, [isFocused]);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.get(
-          "http://10.0.2.2/mardobs/category_fetch.php"
-        );
-        setCategoryList([{ category_name: "All" }, ...response.data]);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-
-    fetchCategories();
   }, []);
 
   useEffect(() => {
-    filterFoodList();
-  }, [searchQuery, selectedCategory]);
+    if (isFocused) {
+      fetchData();
+    }
+  }, [isFocused, fetchData]);
 
-  const filterFoodList = () => {
+  const filterFoodList = useCallback(() => {
     let filteredList = [...allFoodItems];
 
     if (searchQuery !== "") {
@@ -88,7 +74,16 @@ const Home = () => {
     }
 
     setFilteredFoodList(filteredList);
-  };
+  }, [allFoodItems, searchQuery, selectedCategory]);
+
+  useEffect(() => {
+    filterFoodList();
+  }, [filterFoodList]);
+
+  const debouncedSearch = useCallback(
+    debounce((text) => setSearchQuery(text), 300),
+    []
+  );
 
   const handleCategoryPress = (category) => {
     setSelectedCategory(category === selectedCategory ? "All" : category);
@@ -96,7 +91,7 @@ const Home = () => {
 
   const handleAddToCart = (item) => {
     const itemAdded = addToCart(item);
-  
+
     if (itemAdded) {
       Toast.show({
         type: "success",
@@ -135,7 +130,7 @@ const Home = () => {
           placeholder="Search..."
           placeholderTextColor={colors.primary}
           style={styles.searchText}
-          onChangeText={(text) => setSearchQuery(text)}
+          onChangeText={(text) => debouncedSearch(text)}
         />
       </View>
       <View style={styles.categoryContainer}>
