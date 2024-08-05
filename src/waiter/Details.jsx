@@ -30,7 +30,6 @@ const Details = ({ route }) => {
   };
   const handleAddToCart = (item) => {
     const itemAdded = addToCart(item);
-  
     if (itemAdded) {
       Toast.show({
         type: "success",

@@ -69,34 +69,40 @@ const Cart = () => {
       })),
       items_total: getTotalPrice(),
     };
-  
+
     try {
-      const orderResponse = await fetch("http://10.0.2.2/mardobs/order_check.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(orderData),
-      });
-  
+      const orderResponse = await fetch(
+        "http://10.0.2.2/mardobs/order_check.php",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderData),
+        }
+      );
+
       const orderResult = await orderResponse.json();
-  
+
       if (orderResult.status === "success") {
         const stockUpdateData = cart.map((item) => ({
           prod_id: item.prod_id,
           quantity: item.quantity,
         }));
-  
-        const stockResponse = await fetch("http://10.0.2.2/mardobs/stock_update.php", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(stockUpdateData),
-        });
-  
+
+        const stockResponse = await fetch(
+          "http://10.0.2.2/mardobs/stock_update.php",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(stockUpdateData),
+          }
+        );
+
         const stockResult = await stockResponse.json();
-  
+
         if (stockResult.status === "success") {
           Alert.alert("Success", "Order placed and stock updated!");
           setShowModal(false);

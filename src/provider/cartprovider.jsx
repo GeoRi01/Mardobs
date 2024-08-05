@@ -8,12 +8,12 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = (item) => {
     let itemAdded = false;
-  
+
     setCart((prevCart) => {
       const existingItem = prevCart.find(
         (cartItem) => cartItem.prod_id === item.prod_id
       );
-  
+
       if (existingItem) {
         const newQuantity = existingItem.quantity + 1;
         if (newQuantity > item.prod_stocks) {
@@ -51,10 +51,9 @@ export const CartProvider = ({ children }) => {
         }
       }
     });
-  
+
     return itemAdded;
   };
-  
 
   const increaseQuantity = (itemId) => {
     setCart((prevCart) =>

@@ -181,7 +181,9 @@ const Home = () => {
               />
               <Text style={styles.foodText}>{item.prod_name}</Text>
               <View style={styles.foodCardFooter}>
-              <Text style={styles.foodTextStocks}>Stocks: {item.prod_stocks}</Text>
+                <Text style={styles.foodTextStocks}>
+                  Stocks: {item.prod_stocks}
+                </Text>
               </View>
               <View style={styles.foodCardFooter}>
                 <Text style={styles.foodCardFooterSign}>
@@ -316,7 +318,8 @@ const styles = StyleSheet.create({
     fontFamily: fonts.Medium,
     color: colors.primary,
   },
-  foodTextStocks:{fontSize: width * 0.03,
+  foodTextStocks: {
+    fontSize: width * 0.03,
     fontFamily: fonts.Regular,
     color: colors.primary,
   },
