@@ -181,6 +181,9 @@ const Home = () => {
               />
               <Text style={styles.foodText}>{item.prod_name}</Text>
               <View style={styles.foodCardFooter}>
+              <Text style={styles.foodTextStocks}>Stocks: {item.prod_stocks}</Text>
+              </View>
+              <View style={styles.foodCardFooter}>
                 <Text style={styles.foodCardFooterSign}>
                   ₱
                   <Text style={styles.foodCardFooterText}>
@@ -311,6 +314,10 @@ const styles = StyleSheet.create({
     marginBottom: height * 0.01,
     fontSize: width * 0.035,
     fontFamily: fonts.Medium,
+    color: colors.primary,
+  },
+  foodTextStocks:{fontSize: width * 0.03,
+    fontFamily: fonts.Regular,
     color: colors.primary,
   },
   foodCardFooterIcon: {

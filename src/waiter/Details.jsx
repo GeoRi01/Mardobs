@@ -95,6 +95,7 @@ const Details = ({ route }) => {
           <Image source={{ uri: item.prod_image }} style={styles.image} />
         </View>
         <Text style={styles.imageText}>{item.prod_name}</Text>
+        <Text style={styles.imageStocks}>Stocks: {item.prod_stocks}</Text>
         <Text style={styles.imageDescription}>{item.prod_description}</Text>
       </View>
       <View style={styles.priceFooter}>
@@ -161,6 +162,10 @@ const styles = StyleSheet.create({
     marginTop: height * 0.16,
     fontSize: width * 0.045,
     fontFamily: fonts.SemiBold,
+  },
+  imageStocks: {
+    fontSize: width * 0.035,
+    fontFamily: fonts.Regular,
   },
   imageDescription: {
     fontSize: width * 0.035,
