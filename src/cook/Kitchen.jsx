@@ -145,14 +145,15 @@ const Kitchen = () => {
             >
               <Text style={styles.actionText}>View Order</Text>
             </TouchableOpacity>
-            {item.orders_status !== "Served" && (
-              <TouchableOpacity
-                style={styles.actionItem}
-                onPress={() => handleAction("preparing", item)}
-              >
-                <Text style={styles.actionText}>Prepare</Text>
-              </TouchableOpacity>
-            )}
+            {item.orders_status !== "Served" &&
+              item.orders_status !== "Completed" && (
+                <TouchableOpacity
+                  style={styles.actionItem}
+                  onPress={() => handleAction("preparing", item)}
+                >
+                  <Text style={styles.actionText}>Prepare</Text>
+                </TouchableOpacity>
+              )}
           </View>
         )}
       </View>
