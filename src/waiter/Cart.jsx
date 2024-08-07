@@ -72,7 +72,7 @@ const Cart = () => {
 
     try {
       const orderResponse = await fetch(
-        "http://10.0.2.2/mardobs/order_check.php",
+        "https://mardobs.com/api/order_check.php",
         {
           method: "POST",
           headers: {
@@ -91,7 +91,7 @@ const Cart = () => {
         }));
 
         const stockResponse = await fetch(
-          "http://10.0.2.2/mardobs/stock_update.php",
+          "https://mardobs.com/api/stock_update.php",
           {
             method: "POST",
             headers: {

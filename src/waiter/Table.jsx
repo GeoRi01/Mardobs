@@ -29,8 +29,8 @@ const Table = () => {
   const fetchTablesAndOrders = async () => {
     try {
       const [tableResponse, orderResponse] = await Promise.all([
-        axios.get("http://10.0.2.2/mardobs/table_fetch.php"),
-        axios.get("http://10.0.2.2/mardobs/order_status_fetch.php"),
+        axios.get("https://mardobs.com/api/table_fetch.php"),
+        axios.get("https://mardobs.com/api/order_status_fetch.php"),
       ]);
 
       setTables(tableResponse.data);

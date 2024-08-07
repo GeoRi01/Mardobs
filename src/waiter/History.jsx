@@ -26,7 +26,7 @@ const History = () => {
   const fetchOrders = async () => {
     try {
       const response = await axios.get(
-        "http://10.0.2.2/mardobs/order_fetch.php"
+        "https://mardobs.com/api/order_fetch.php"
       );
       setOrders(response.data);
     } catch (error) {

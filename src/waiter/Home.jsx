@@ -39,8 +39,8 @@ const Home = () => {
   const fetchData = useCallback(async () => {
     try {
       const [foodResponse, categoryResponse] = await Promise.all([
-        axios.get("http://10.0.2.2/mardobs/food_fetch.php"),
-        axios.get("http://10.0.2.2/mardobs/category_fetch.php"),
+        axios.get("https://mardobs.com/api/food_fetch.php"),
+        axios.get("https://mardobs.com/api/category_fetch.php"),
       ]);
 
       setAllFoodItems(foodResponse.data);

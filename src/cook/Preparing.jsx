@@ -42,7 +42,7 @@ const Preparing = () => {
     if (!checkedItems[index]) {
       try {
         const response = await axios.post(
-          "http://10.0.2.2/mardobs/item_update.php",
+          "https://mardobs.com/api/item_update.php",
           {
             order_id: order.orders_id,
             item_id: item.item_id,
@@ -63,7 +63,7 @@ const Preparing = () => {
   const handleServe = async () => {
     try {
       const response = await axios.post(
-        "http://10.0.2.2/mardobs/item_check.php",
+        "https://mardobs.com/api/item_check.php",
         {
           order_id: order.orders_id,
         }
@@ -81,7 +81,7 @@ const Preparing = () => {
       }
 
       const updateResponse = await axios.post(
-        "http://10.0.2.2/mardobs/order_update.php",
+        "https://mardobs.com/api/order_update.php",
         {
           order_id: order.orders_id,
           status: "Served",
